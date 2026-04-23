@@ -73,7 +73,6 @@ class CategoriaController extends Controller
      */
     public function destroy(\App\Models\Categoria $categoria)
 {
-    // Ojo: Si una categoría tiene tours asociados, Laravel podría dar error de integridad
     $categoria->delete();
 
     return redirect()->route('categorias.index')->with('success', 'Categoria eliminada');
