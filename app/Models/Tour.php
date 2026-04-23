@@ -17,7 +17,6 @@ class Tour extends Model
         'disponible'
     ];
 
-    // Esto te permitirá mostrar el nombre de la categoría en lugar de solo el ID
     public function categoria(): BelongsTo
     {
         return $this->belongsTo(Categoria::class, 'categoria_id');
