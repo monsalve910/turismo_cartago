@@ -7,6 +7,7 @@ Route::resource('rutas', RutaController::class);
 Route::post('rutas/{id}/lugares', [RutaController::class, 'agregarLugar'])->name('rutas.lugares');
 Route::delete('/lugares/{id}', [RutaController::class, 'eliminarLugar'])->name('lugares.destroy');
 use App\Http\Controllers\ReservasController;
+use App\Http\Controllers\ComentarioController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,4 +31,9 @@ Route::post('/reservaciones/{id}/aprobar', [ReservasController::class, 'aprobar'
 Route::post('/reservaciones/{id}/cancelar', [ReservasController::class, 'cancelar']);
 Route::post('/reservaciones/{id}/finalizar', [ReservasController::class, 'finalizar']);
 Route::get('/reservaciones/misReservas/{user_id}', [ReservasController::class, 'misReservas']); 
+// rutas para las reseñas
+Route::post('/comentarios', [ComentarioController::class, 'store']);
+Route::post('/comentarios/{id}', [ComentarioController::class, 'update']);
+Route::post('/comentarios/{id}', [ComentarioController::class, 'destroy']);
+Route::get('/comentarios/{tour_id}/{user_id}', [ComentarioController::class, 'comentariosPorUsuarioYTour']);
 require __DIR__.'/auth.php';
