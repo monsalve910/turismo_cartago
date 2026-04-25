@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comentarios extends Model
 {
-    //
+   
+    protected $fillable = [
+        'user_id',
+        'tour_id',
+        'comentario',
+        'calificacion',
+    ];
+
+ 
 }
