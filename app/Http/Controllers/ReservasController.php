@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Reservaciones;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReservasController extends Controller
 {
     public function index()
     {
         $reservas = Reservaciones::with('tour')
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->paginate(10);
 
         return view('reservaciones.index', compact('reservas'));
@@ -39,7 +40,7 @@ class ReservasController extends Controller
         ]);
 
         Reservaciones::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(), // ✅ cambiado aquí
             'tour_id' => $validatedData['tour_id'],
             'fecha_reservacion' => $validatedData['fecha'],
             'cantidad_personas' => $validatedData['numero_personas'],
@@ -75,7 +76,7 @@ class ReservasController extends Controller
         }
 
         $reserva->update([
-            'status' => 'aprobada'
+            'status' => 'aprobado' // ⚠️ ajusta al ENUM
         ]);
 
         return back()->with('success', 'Reserva aprobada correctamente');
@@ -101,7 +102,7 @@ class ReservasController extends Controller
         $reserva = Reservaciones::findOrFail($id);
 
         $reserva->update([
-            'status' => 'finalizada'
+            'status' => 'finalizado' // ⚠️ ajusta al ENUM
         ]);
 
         return back()->with('success', 'Reserva finalizada correctamente');
@@ -109,7 +110,7 @@ class ReservasController extends Controller
 
     public function misReservas()
     {
-        $reservas = Reservaciones::where('user_id', auth()->id())
+        $reservas = Reservaciones::where('user_id', Auth::id())
             ->with('tour')
             ->orderBy('created_at', 'desc')
             ->get();

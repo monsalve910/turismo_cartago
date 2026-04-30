@@ -42,7 +42,7 @@
                         <td><?php echo e($reserva->user->name ?? 'N/A'); ?></td>
                         <td><?php echo e(\Carbon\Carbon::parse($reserva->fecha ?? $reserva->created_at)->format('d/m/Y')); ?></td>
                         <td><?php echo e($reserva->numero_personas ?? 1); ?></td>
-                        <td><span class="badge <?php echo e($reserva->estado); ?>"><?php echo e(ucfirst($reserva->estado)); ?></span></td>
+                        <td><span class="badge <?php echo e($reserva->status); ?>"><?php echo e(ucfirst($reserva->status)); ?></span></td>
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>

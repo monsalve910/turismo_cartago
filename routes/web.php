@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservaciones/create', [ReservasController::class, 'create'])->name('reservaciones.create');
     Route::post('/reservaciones', [ReservasController::class, 'store'])->name('reservaciones.store');
     Route::get('/reservaciones/mis-reservas/{user_id}', [ReservasController::class, 'misReservas'])->name('reservaciones.misReservas');
+     Route::post('/reservaciones/{id}/cancelar', [ReservasController::class, 'cancelar'])->name('reservaciones.cancelar');
 
     Route::post('/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
     Route::put('/comentarios/{id}', [ComentarioController::class, 'update'])->name('comentarios.update');
@@ -89,7 +90,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('reservaciones', [ReservasController::class, 'admin'])->name('reservaciones.index');
     Route::post('reservaciones/{id}/aprobar', [ReservasController::class, 'aprobar'])->name('reservaciones.aprobar');
-    Route::post('reservaciones/{id}/cancelar', [ReservasController::class, 'cancelar'])->name('reservaciones.cancelar');
+    Route::post('/reservaciones/{id}/cancelar', [ReservasController::class, 'cancelar'])->name('reservaciones.cancelar');
     Route::post('reservaciones/{id}/finalizar', [ReservasController::class, 'finalizar'])->name('reservaciones.finalizar');
 
     Route::get('reportes', [ReporteController::class, 'index'])->name('reportes.index');
