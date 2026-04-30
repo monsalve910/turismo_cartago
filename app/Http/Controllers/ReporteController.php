@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Tour;
 use App\Models\Categoria;
+use App\Models\Tour;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+use App\Models\Reservaciones;
+use App\Models\User;
 
 class ReporteController extends Controller
 {
@@ -20,7 +22,7 @@ class ReporteController extends Controller
         if ($request->fecha_inicio && $request->fecha_fin) {
             $query->whereBetween('fecha', [
                 $request->fecha_inicio,
-                $request->fecha_fin
+                $request->fecha_fin,
             ]);
         }
 
@@ -31,41 +33,45 @@ class ReporteController extends Controller
         $tours = $query->get();
         $categorias = Categoria::all();
 
-        return view('reportes.index', compact('tours', 'categorias'));
+        return view('admin.reportes.index', compact('tours', 'categorias'));
     }
 
     public function estadisticas()
     {
-        $promedios = Tour::selectRaw('categoria_id, AVG(precio) as promedio')
-            ->groupBy('categoria_id')
-            ->with('categoria')
+        $totalTours = Tour::count();
+        $totalReservas = Reservaciones::count();
+        $totalUsuarios = User::count();
+        $pendientes = Reservaciones::where('estado', 'pendiente')->count();
+
+        $reservasPorEstado = Reservaciones::selectRaw('estado, COUNT(*) as total')
+            ->groupBy('estado')
             ->get();
 
-        $recientes = Tour::orderBy('fecha', 'desc')->take(5)->get();
+        $reservasPorCategoria = Reservaciones::selectRaw('categorias.name as categoria, COUNT(reservaciones.id) as total')
+            ->join('tours', 'reservaciones.tour_id', '=', 'tours.id')
+            ->join('categorias', 'tours.categoria_id', '=', 'categorias.id')
+            ->groupBy('categorias.name')
+            ->get();
 
-        $capacidadTotal = Tour::sum('capacidad');
-
-        return view('reportes.estadisticas', compact(
-            'promedios',
-            'recientes',
-            'capacidadTotal'
+        return view('admin.reportes.estadisticas', compact(
+            'totalTours',
+            'totalReservas',
+            'totalUsuarios',
+            'pendientes',
+            'reservasPorEstado',
+            'reservasPorCategoria'
         ));
     }
 
     public function exportarPDF(Request $request)
     {
-        $query = Tour::with('categoria');
+        $reservas = Reservaciones::with(['tour', 'user'])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        if ($request->categoria_id) {
-            $query->where('categoria_id', $request->categoria_id);
-        }
+        $pdf = Pdf::loadView('admin.reportes.pdf', compact('reservas'));
 
-        $tours = $query->get();
-        $categorias = Categoria::all();
-
-        $pdf = Pdf::loadView('reportes.pdf', compact('tours', 'categorias'));
-
-        return $pdf->download('reporte_tours.pdf');
+        return $pdf->download('reporte_reservas.pdf');
     }
 
     public function porCategoria($id)
@@ -74,6 +80,6 @@ class ReporteController extends Controller
 
         $tours = Tour::where('categoria_id', $id)->get();
 
-        return view('reportes.categoria', compact('tours', 'categoria'));
+        return view('admin.reportes.categoria', compact('tours', 'categoria'));
     }
 }

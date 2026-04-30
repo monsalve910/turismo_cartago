@@ -1,44 +1,33 @@
 <x-app-layout>
-    <div class="max-w-4xl mx-auto mt-10">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold">Categorías de Turismo</h2>
-            <a href="{{ route('categorias.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                + Nueva Categoría
-            </a>
+    <div class="max-w-6xl mx-auto">
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-800">Categorías de Tours</h2>
+            <p class="text-gray-500 mt-1">Explora tours organizados por categoría</p>
         </div>
 
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="p-4 border-b">ID</th>
-                        <th class="p-4 border-b">Nombre</th>
-                        <th class="p-4 border-b text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($categorias as $categoria)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="p-4 border-b text-gray-500">#{{ $categoria->id }}</td>
-                            <td class="p-4 border-b font-medium">{{ $categoria->name }}</td>
-                            <td class="p-4 border-b text-center">
-                                <div class="flex justify-center gap-4">
-                                    <a href="{{ route('categorias.edit', $categoria) }}" class="text-blue-600 hover:text-blue-800 font-medium">
-                                        Editar
-                                    </a>
-                                    <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" onsubmit="return confirm('¿Eliminar categoría? Esto podría afectar a los tours asociados.')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-800 font-medium">
-                                            Eliminar
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+        @if($categorias && $categorias->count() > 0)
+            <div class="grid md:grid-cols-3 gap-6">
+                @foreach($categorias as $categoria)
+                    <a href="{{ route('categorias.show', $categoria) }}" class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition group">
+                        <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition">
+                            <svg class="w-7 h-7 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">{{ $categoria->name }}</h3>
+                        <p class="text-gray-500 text-sm">
+                            {{ $categoria->tours ? $categoria->tours->count() : 0 }} tours disponibles
+                        </p>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
+                <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                </svg>
+                <p class="text-gray-500 text-lg">No hay categorías disponibles.</p>
+            </div>
+        @endif
     </div>
 </x-app-layout>

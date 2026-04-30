@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('tour_id')->constrained()->onDelete('cascade');
             $table->date('fecha_reservacion');
             $table->integer('cantidad_personas');
-            $table->enum('status', ['activa', 'cancelada', 'finalizada'])->default('activa');
+            $table->enum('status', ['pendiente', 'cancelada', 'aprobada'])->default('pendiente');
             $table->timestamps();
         });
     }

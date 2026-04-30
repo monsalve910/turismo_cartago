@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Comentarios;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
 
 class ComentarioController extends Controller
 {
@@ -12,23 +11,22 @@ class ComentarioController extends Controller
     {
         // Validar los datos del comentario
         $validatedData = $request->validate([
-            'user_id' => 'required|integer',
             'tour_id' => 'required|integer',
             'comentario' => 'required|string|max:255',
             'calificacion' => 'required|integer|min:1|max:5',
         ]);
 
-        // Crear el comentario
+        // Crear el comentario usando el usuario autenticado
         Comentarios::create([
-            'user_id' => $validatedData['user_id'],
+            'user_id' => auth()->id(),
             'tour_id' => $validatedData['tour_id'],
             'comentario' => $validatedData['comentario'],
             'calificacion' => $validatedData['calificacion'],
         ]);
 
-        // Redirigir o devolver una respuesta
-        return response()->json(['message' => 'Comentario creado exitosamente'], 201);
+        return back()->with('success', 'Comentario creado exitosamente');
     }
+
     // Editar un comentario existente
     public function update(Request $request, $id)
     {
@@ -41,15 +39,20 @@ class ComentarioController extends Controller
         // Encontrar el comentario por su ID
         $comentario = Comentarios::findOrFail($id);
 
+        // Verificar que el usuario sea el dueño del comentario
+        if ($comentario->user_id !== auth()->id()) {
+            return back()->with('error', 'No tienes permiso para editar este comentario');
+        }
+
         // Actualizar el comentario
         $comentario->update([
             'comentario' => $validatedData['comentario'],
             'calificacion' => $validatedData['calificacion'],
         ]);
 
-        // Redirigir o devolver una respuesta
-        return response()->json(['message' => 'Comentario actualizado exitosamente'], 200);
+        return back()->with('success', 'Comentario actualizado exitosamente');
     }
+
     public function comentariosPorUsuarioYTour($tour_id, $user_id)
     {
         $comentarios = Comentarios::where('tour_id', $tour_id)
@@ -58,19 +61,21 @@ class ComentarioController extends Controller
 
         return response()->json($comentarios, 200);
     }
-// Eliminar un comentario
+
+    // Eliminar un comentario
     public function destroy($id)
     {
         // Encontrar el comentario por su ID
         $comentario = Comentarios::findOrFail($id);
 
+        // Verificar que el usuario sea el dueño o administrador
+        if ($comentario->user_id !== auth()->id() && ! (auth()->user()->role === 'admin')) {
+            return back()->with('error', 'No tienes permiso para eliminar este comentario');
+        }
+
         // Eliminar el comentario
         $comentario->delete();
 
-        // Redirigir o devolver una respuesta
-        return response()->json(['message' => 'Comentario eliminado exitosamente'], 200);
+        return back()->with('success', 'Comentario eliminado exitosamente');
     }
-
 }
-
-

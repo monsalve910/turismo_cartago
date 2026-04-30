@@ -14,6 +14,13 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                tourism: {
+                    DEFAULT: '#059669',
+                    dark: '#047857',
+                    light: '#d1fae5',
+                }
+            }
         },
     },
 

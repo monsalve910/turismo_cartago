@@ -3,89 +3,117 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservaciones;
+use App\Models\Tour;
 use Illuminate\Http\Request;
 
 class ReservasController extends Controller
 {
     public function index()
     {
-        $reservas = Reservaciones::all();
+        $reservas = Reservaciones::with('tour')
+            ->where('user_id', auth()->id())
+            ->paginate(10);
 
-        return response()->json($reservas);
+        return view('reservaciones.index', compact('reservas'));
     }
 
     public function create()
     {
-        return view('reservaciones.create');
+        $tour = null;
+
+        if (request()->has('tour_id')) {
+            $tour = Tour::find(request()->tour_id);
+        }
+
+        $tours = Tour::all();
+
+        return view('reservaciones.create', compact('tour', 'tours'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|integer',
-            'tour_id' => 'required|integer',
-            'fecha_reservacion' => 'required|date',
-            'cantidad_personas' => 'required|integer|min:1'
+        $validatedData = $request->validate([
+            'tour_id' => 'required|integer|exists:tours,id',
+            'fecha' => 'required|date',
+            'numero_personas' => 'required|integer|min:1',
         ]);
+
         Reservaciones::create([
-            'user_id' => $request->user_id,
-            'tour_id' => $request->tour_id,
-            'fecha_reservacion' => $request->fecha_reservacion,
-            'cantidad_personas' => $request->cantidad_personas,
-
+            'user_id' => auth()->id(),
+            'tour_id' => $validatedData['tour_id'],
+            'fecha_reservacion' => $validatedData['fecha'],
+            'cantidad_personas' => $validatedData['numero_personas'],
+            'status' => 'pendiente',
         ]);
 
-        return response()->json(['message' => 'Reserva creada exitosamente']);
+        return redirect()
+            ->route('reservaciones.index')
+            ->with('success', 'Reserva creada exitosamente. Pendiente de aprobación.');
     }
-    public function pendientes()
+
+    public function admin()
     {
+        $query = Reservaciones::with(['tour', 'user']);
 
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }
 
+        $reservas = $query->orderBy('created_at', 'desc')->get();
 
-        $reservas = Reservaciones::where('status', 'pendiente')->get();
-        return response()->json($reservas);
+        $pendientes = Reservaciones::where('status', 'pendiente')->count();
+
+        return view('admin.reservaciones.admin', compact('reservas', 'pendientes'));
     }
+
     public function aprobar($id)
     {
-
         $reserva = Reservaciones::findOrFail($id);
 
         if ($reserva->status !== 'pendiente') {
-            return response()->json([
-                'error' => 'La reserva ya fue procesada'
-            ], 400);
+            return back()->with('error', 'La reserva ya fue procesada');
         }
-        $reserva->status = 'activa';
-        $reserva->save();
 
-        return response()->json(['message' => 'Reserva aprobada']);
+        $reserva->update([
+            'status' => 'aprobada'
+        ]);
+
+        return back()->with('success', 'Reserva aprobada correctamente');
     }
+
     public function cancelar($id)
     {
-
         $reserva = Reservaciones::findOrFail($id);
 
         if ($reserva->status !== 'pendiente') {
-            return response()->json([
-                'error' => 'La reserva ya fue procesada'
-            ], 400);
+            return back()->with('error', 'La reserva ya fue procesada');
         }
-        $reserva->status = 'cancelada';
-        $reserva->save();
 
-        return response()->json(['message' => 'Reserva cancelada']);
+        $reserva->update([
+            'status' => 'cancelada'
+        ]);
+
+        return back()->with('success', 'Reserva cancelada correctamente');
     }
+
     public function finalizar($id)
     {
         $reserva = Reservaciones::findOrFail($id);
 
-        $reserva->status = 'finalizada';
-        $reserva->save();
+        $reserva->update([
+            'status' => 'finalizada'
+        ]);
 
-        return response()->json(['message' => 'Reserva finalizada']);
+        return back()->with('success', 'Reserva finalizada correctamente');
     }
-    public function misReservas($user_id)
+
+    public function misReservas()
     {
-        return response()->json(Reservaciones::where('user_id', $user_id)->get());
+        $reservas = Reservaciones::where('user_id', auth()->id())
+            ->with('tour')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('reservaciones.index', compact('reservas'));
     }
 }
