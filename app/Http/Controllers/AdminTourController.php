@@ -34,11 +34,21 @@ class AdminTourController extends Controller
             'capacidad' => 'required|integer|min:1',
             'categoria_id' => 'required|exists:categorias,id',
             'ruta_id' => 'required|exists:rutas,id',
+            'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        // subir imagen
+        if ($request->hasFile('imagen')) {
+
+            $path = $request->file('imagen')->store('tours', 'public');
+
+            $validated['imagen'] = $path;
+        }
 
         Tour::create($validated);
 
-        return redirect()->route('admin.tours.index')
+        return redirect()
+            ->route('admin.tours.index')
             ->with('success', 'Tour creado correctamente');
     }
 
@@ -63,11 +73,20 @@ class AdminTourController extends Controller
             'capacidad' => 'required|integer|min:1',
             'categoria_id' => 'required|exists:categorias,id',
             'ruta_id' => 'required|exists:rutas,id',
+            'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        if ($request->hasFile('imagen')) {
+
+            $path = $request->file('imagen')->store('tours', 'public');
+
+            $validated['imagen'] = $path;
+        }
 
         $tour->update($validated);
 
-        return redirect()->route('admin.tours.index')
+        return redirect()
+            ->route('admin.tours.index')
             ->with('success', 'Tour actualizado correctamente');
     }
 

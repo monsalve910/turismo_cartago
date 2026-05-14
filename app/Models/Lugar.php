@@ -11,5 +11,5 @@ class Lugar extends Model
     {
         return $this->belongsTo(Ruta::class);
     }
-    protected $fillable = ['ruta_id', 'nombre', 'descripcion', 'orden','imagen'];
+    protected $fillable = ['ruta_id', 'nombre', 'descripcion',"ubicacion", 'orden','imagen'];
 }

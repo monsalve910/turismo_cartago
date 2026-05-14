@@ -40,7 +40,7 @@ class ReservasController extends Controller
         ]);
 
         Reservaciones::create([
-            'user_id' => Auth::id(), // ✅ cambiado aquí
+            'user_id' => Auth::id(), // cambiado aquí
             'tour_id' => $validatedData['tour_id'],
             'fecha_reservacion' => $validatedData['fecha'],
             'cantidad_personas' => $validatedData['numero_personas'],
@@ -76,7 +76,7 @@ class ReservasController extends Controller
         }
 
         $reserva->update([
-            'status' => 'aprobado' // ⚠️ ajusta al ENUM
+            'status' => 'aprobada' // ajusta al ENUM
         ]);
 
         return back()->with('success', 'Reserva aprobada correctamente');
@@ -102,7 +102,7 @@ class ReservasController extends Controller
         $reserva = Reservaciones::findOrFail($id);
 
         $reserva->update([
-            'status' => 'finalizado' // ⚠️ ajusta al ENUM
+            'status' => 'finalizada' // ajusta al ENUM
         ]);
 
         return back()->with('success', 'Reserva finalizada correctamente');

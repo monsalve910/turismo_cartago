@@ -18,7 +18,9 @@ class Tour extends Model
         'capacidad',
         'fecha',
         'categoria_id',
+        'ruta_id',
         'disponible',
+        'imagen',
     ];
 
     public function categoria(): BelongsTo
