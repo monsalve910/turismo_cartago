@@ -43,8 +43,8 @@ class AdminRutaController extends Controller
             }
         }
 
-        return redirect()->route('admin.rutas.index')
-            ->with('success', 'Ruta creada exitosamente');
+        return redirect()->route('admin.rutas.edit', $ruta->id)
+            ->with('success', 'Ruta creada exitosamente. Ahora puedes agregar lugares.');
     }
 
     public function show($id)

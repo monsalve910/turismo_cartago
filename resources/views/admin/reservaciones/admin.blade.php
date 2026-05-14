@@ -34,6 +34,10 @@
                         @if(request('status') == 'aprobada') bg-green-500 text-white @else text-gray-600 hover:bg-gray-100 @endif">
                         Aprobadas
                     </a>
+                    <a href="{{ route('admin.reservaciones.index', ['status' => 'finalizada']) }}" class="px-4 py-2 rounded-lg font-medium transition
+                        @if(request('status') == 'finalizada') bg-blue-500 text-white @else text-gray-600 hover:bg-gray-100 @endif">
+                        Finalizadas
+                    </a>
 
                     <a href="{{ route('admin.reservaciones.index', ['status' => 'cancelada']) }}" class="px-4 py-2 rounded-lg font-medium transition
                         @if(request('status') == 'cancelada') bg-red-500 text-white @else text-gray-600 hover:bg-gray-100 @endif">

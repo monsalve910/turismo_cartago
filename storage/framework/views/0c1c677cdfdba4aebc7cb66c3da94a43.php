@@ -14,10 +14,14 @@
                 <h2 class="text-3xl font-bold text-gray-800">Reportes de Tours</h2>
                 <p class="text-gray-500 mt-1">Analiza y filtra la información de tours</p>
             </div>
-            <a href="<?php echo e(route('admin.reportes.pdf')); ?>" class="bg-red-600 text-white px-5 py-2.5 rounded-lg hover:bg-red-700 transition font-semibold flex items-center gap-2">
+            <a href="<?php echo e(route('admin.reportes.pdf', request()->query())); ?>"
+                class="bg-red-600 text-white px-5 py-2.5 rounded-lg hover:bg-red-700 transition font-semibold flex items-center gap-2">
+
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
+
                 Exportar PDF
             </a>
         </div>
@@ -29,13 +33,13 @@
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Categoría</label>
                     <select name="categoria_id"
-                            class="w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5 bg-white">
+                        class="w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5 bg-white">
                         <option value="">Todas</option>
                         <?php $__currentLoopData = $categorias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <option value="<?php echo e($c->id); ?>" <?php echo e(request('categoria_id') == $c->id ? 'selected' : ''); ?>>
-                                <?php echo e($c->name); ?>
+                        <option value="<?php echo e($c->id); ?>" <?php echo e(request('categoria_id') == $c->id ? 'selected' : ''); ?>>
+                            <?php echo e($c->name); ?>
 
-                            </option>
+                        </option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
                 </div>
@@ -43,13 +47,13 @@
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Fecha Inicio</label>
                     <input type="date" name="fecha_inicio" value="<?php echo e(request('fecha_inicio')); ?>"
-                           class="w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
+                        class="w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
                 </div>
 
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Fecha Fin</label>
                     <input type="date" name="fecha_fin" value="<?php echo e(request('fecha_fin')); ?>"
-                           class="w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
+                        class="w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
                 </div>
 
                 <div>
@@ -59,8 +63,8 @@
                             <span class="text-gray-400">$</span>
                         </div>
                         <input type="number" name="precio_min" value="<?php echo e(request('precio_min')); ?>"
-                               class="pl-8 w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"
-                               placeholder="0">
+                            class="pl-8 w-full border-gray-300 rounded-lg shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"
+                            placeholder="0">
                     </div>
                 </div>
 
@@ -90,29 +94,29 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         <?php $__empty_1 = true; $__currentLoopData = $tours; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $t): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="p-4 font-medium text-gray-800"><?php echo e($t->nombre); ?></td>
-                                <td class="p-4">
-                                    <?php if($t->categoria): ?>
-                                        <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">
-                                            <?php echo e($t->categoria->name); ?>
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="p-4 font-medium text-gray-800"><?php echo e($t->nombre); ?></td>
+                            <td class="p-4">
+                                <?php if($t->categoria): ?>
+                                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">
+                                    <?php echo e($t->categoria->name); ?>
 
-                                        </span>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="p-4 font-medium text-emerald-600">$<?php echo e(number_format($t->precio, 0, ',', '.')); ?></td>
-                                <td class="p-4 text-gray-600"><?php echo e(\Carbon\Carbon::parse($t->fecha)->format('d/m/Y')); ?></td>
-                                <td class="p-4 text-gray-600"><?php echo e($t->capacidad); ?> personas</td>
-                            </tr>
+                                </span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="p-4 font-medium text-emerald-600">$<?php echo e(number_format($t->precio, 0, ',', '.')); ?></td>
+                            <td class="p-4 text-gray-600"><?php echo e(\Carbon\Carbon::parse($t->fecha)->format('d/m/Y')); ?></td>
+                            <td class="p-4 text-gray-600"><?php echo e($t->capacidad); ?> personas</td>
+                        </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                            <tr>
-                                <td colspan="5" class="p-8 text-center">
-                                    <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                    <p class="text-gray-500">No hay resultados con los filtros aplicados.</p>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td colspan="5" class="p-8 text-center">
+                                <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <p class="text-gray-500">No hay resultados con los filtros aplicados.</p>
+                            </td>
+                        </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -128,5 +132,4 @@
 <?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
-<?php endif; ?>
-<?php /**PATH C:\Users\apesi\turismo-cartago\resources\views/admin/reportes/index.blade.php ENDPATH**/ ?>
+<?php endif; ?><?php /**PATH C:\Users\apesi\turismo-cartago\resources\views/admin/reportes/index.blade.php ENDPATH**/ ?>

@@ -65,9 +65,33 @@ class ReporteController extends Controller
 
     public function exportarPDF(Request $request)
     {
-        $reservas = Reservaciones::with(['tour', 'user'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = Reservaciones::with(['tour', 'user']);
+
+        // Filtrar por categoría
+        if ($request->filled('categoria_id')) {
+            $query->whereHas('tour', function ($q) use ($request) {
+                $q->where('categoria_id', $request->categoria_id);
+            });
+        }
+
+        // Filtrar por fechas
+        if ($request->fecha_inicio && $request->fecha_fin) {
+            $query->whereHas('tour', function ($q) use ($request) {
+                $q->whereBetween('fecha', [
+                    $request->fecha_inicio,
+                    $request->fecha_fin
+                ]);
+            });
+        }
+
+        // Filtrar por precio mínimo
+        if ($request->precio_min) {
+            $query->whereHas('tour', function ($q) use ($request) {
+                $q->where('precio', '>=', $request->precio_min);
+            });
+        }
+
+        $reservas = $query->orderBy('created_at', 'desc')->get();
 
         $pdf = Pdf::loadView('admin.reportes.pdf', compact('reservas'));
 

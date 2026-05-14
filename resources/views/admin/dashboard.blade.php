@@ -255,7 +255,7 @@
                         </div>
                         <div class="ml-4">
                             <dt class="text-sm font-medium text-gray-500">Administradores</dt>
-                            <dd class="text-lg font-bold text-gray-900">Gestionar Admins</dd>
+                            <dd class="text-lg font-bold text-gray-900">Gestionar Administradores</dd>
                         </div>
                     </div>
                 </div>
