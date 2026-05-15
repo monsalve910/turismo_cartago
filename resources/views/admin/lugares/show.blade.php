@@ -49,16 +49,6 @@
                     <div class="bg-white rounded-2xl shadow-lg p-6">
                         <h4 class="text-lg font-bold text-gray-800 mb-4">Información</h4>
                         <div class="space-y-3">
-                            @if($lugar->ruta)
-                                <div>
-                                    <p class="text-xs text-gray-500">Ruta</p>
-                                    <p class="font-medium text-gray-800">{{ $lugar->ruta->nombre }}</p>
-                                </div>
-                            @endif
-                            <div>
-                                <p class="text-xs text-gray-500">Orden en la ruta</p>
-                                <p class="font-medium text-gray-800">#{{ $lugar->orden }}</p>
-                            </div>
                             <div>
                                 <p class="text-xs text-gray-500">Fecha de creación</p>
                                 <p class="font-medium text-gray-800">{{ $lugar->created_at ? $lugar->created_at->format('d/m/Y') : 'N/A' }}</p>
@@ -71,9 +61,6 @@
                         <div class="space-y-3">
                             <a href="{{ route('admin.lugares.edit', $lugar->id) }}" class="block w-full text-center bg-blue-600 text-white py-2.5 rounded-xl hover:bg-blue-700 transition font-medium">
                                 Editar Lugar
-                            </a>
-                            <a href="{{ route('admin.rutas.show', $lugar->ruta_id) }}" class="block w-full text-center bg-gray-100 text-gray-700 py-2.5 rounded-xl hover:bg-gray-200 transition font-medium">
-                                Ver Ruta
                             </a>
                             <a href="{{ route('admin.lugares.index') }}" class="block w-full text-center bg-gray-100 text-gray-700 py-2.5 rounded-xl hover:bg-gray-200 transition font-medium">
                                 Volver al Listado

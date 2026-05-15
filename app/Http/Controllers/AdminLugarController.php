@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Lugar;
 use Illuminate\Http\Request;
-use App\Models\Ruta;
 
 class AdminLugarController extends Controller
 {
@@ -17,7 +16,6 @@ class AdminLugarController extends Controller
 
     public function create()
     {
-        $rutas = Ruta::all();
         return view('admin.lugares.create');
     }
 
@@ -26,8 +24,13 @@ class AdminLugarController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
-            'ubicacion' => 'required|string',
+            'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        if ($request->hasFile('imagen')) {
+            $path = $request->file('imagen')->store('lugares', 'public');
+            $validated['imagen'] = $path;
+        }
 
         Lugar::create($validated);
 
@@ -44,9 +47,8 @@ class AdminLugarController extends Controller
     public function edit($id)
     {
         $lugar = Lugar::findOrFail($id);
-        $rutas = Ruta::all();
 
-        return view('admin.lugares.edit', compact('lugar', 'rutas'));
+        return view('admin.lugares.edit', compact('lugar'));
     }
 
     public function update(Request $request, $id)
@@ -54,10 +56,8 @@ class AdminLugarController extends Controller
         $lugar = Lugar::findOrFail($id);
 
         $validated = $request->validate([
-            'ruta_id' => 'required|exists:rutas,id',
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
-            'orden' => 'required|integer|min:1',
             'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 

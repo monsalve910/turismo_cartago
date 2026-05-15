@@ -26,21 +26,6 @@
                     @method('PUT')
 
                     <div>
-                        <label for="ruta_id" class="block text-gray-700 font-semibold mb-2">Ruta</label>
-                        <select name="ruta_id" id="ruta_id" required 
-                                class="w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
-                            @foreach($rutas as $ruta)
-                                <option value="{{ $ruta->id }}" {{ $lugar->ruta_id == $ruta->id ? 'selected' : '' }}>
-                                    {{ $ruta->nombre }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('ruta_id')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
                         <label for="nombre" class="block text-gray-700 font-semibold mb-2">Nombre del Lugar</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -65,23 +50,13 @@
                         @enderror
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="orden" class="block text-gray-700 font-semibold mb-2">Orden</label>
-                            <input type="number" name="orden" id="orden" min="1" value="{{ $lugar->orden }}" required
-                                   class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
-                            @error('orden')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div>
-                            <label for="imagen" class="block text-gray-700 font-semibold mb-2">Cambiar Imagen</label>
-                            <input type="file" name="imagen" id="imagen"
-                                   class="block w-full rounded-xl border-gray-300 p-2.5 bg-gray-50 text-sm">
-                            @error('imagen')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
+                    <div>
+                        <label for="imagen" class="block text-gray-700 font-semibold mb-2">Cambiar Imagen (opcional)</label>
+                        <input type="file" name="imagen" id="imagen"
+                               class="block w-full rounded-xl border-gray-300 p-2.5 bg-gray-50 text-sm">
+                        @error('imagen')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     @if($lugar->imagen)

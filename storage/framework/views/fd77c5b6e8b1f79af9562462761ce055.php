@@ -23,8 +23,8 @@
      <?php $__env->endSlot(); ?>
 
     <div class="py-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-6">
+        <div class="max-w-2xl mx-auto">
+            <div class="grid md:grid-cols-1 gap-6">
                 <div class="bg-white rounded-2xl shadow-lg p-8">
                     <div class="mb-6">
                         <h3 class="text-2xl font-bold text-gray-800">Información de la Ruta</h3>
@@ -74,6 +74,83 @@ endif;
 unset($__errorArgs, $__bag); ?>
                         </div>
 
+                        <div class="border-t pt-5" x-data="{
+                            lugares: <?php echo e(json_encode($ruta->lugares->map(fn($l) => ['id' => $l->id, 'nombre' => $l->nombre, 'orden' => $l->orden]))); ?>,
+                            selectLugarId: '',
+                            selectOrden: '',
+                            get lugaresDisponibles() {
+                                const idsEnRuta = this.lugares.map(l => l.id);
+                                return <?php echo e(json_encode($lugares->map(fn($l) => ['id' => $l->id, 'nombre' => $l->nombre]))); ?>.filter(l => !idsEnRuta.includes(l.id));
+                            },
+                            agregar() {
+                                const lugar = this.lugaresDisponibles.find(l => l.id == this.selectLugarId);
+                                if (!lugar || !this.selectOrden) return;
+                                this.lugares.push({ ...lugar, orden: this.selectOrden });
+                                this.selectLugarId = '';
+                                this.selectOrden = '';
+                                this.$refs.selectField.value = '';
+                            },
+                            eliminar(index) {
+                                this.lugares.splice(index, 1);
+                            }
+                        }">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4">Lugares de la Ruta</h3>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                                <div class="sm:col-span-1">
+                                    <label for="lugar_select" class="block text-gray-700 text-sm font-medium mb-1">Lugar</label>
+                                    <select x-model="selectLugarId" id="lugar_select" x-ref="selectField"
+                                            class="w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
+                                        <option value="">Seleccione...</option>
+                                        <template x-for="lugar in lugaresDisponibles" :key="lugar.id">
+                                            <option :value="lugar.id" x-text="lugar.nombre"></option>
+                                        </template>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="lugar_orden" class="block text-gray-700 text-sm font-medium mb-1">Orden</label>
+                                    <input type="number" x-model="selectOrden" id="lugar_orden" min="1" placeholder="Orden"
+                                           class="w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
+                                </div>
+                                <div class="flex items-end">
+                                    <button type="button" @click="agregar()"
+                                            class="w-full bg-blue-600 text-white py-2.5 rounded-xl hover:bg-blue-700 transition font-semibold">
+                                        Agregar
+                                    </button>
+                                </div>
+                            </div>
+
+                            <template x-if="lugares.length === 0">
+                                <div class="text-center py-6 bg-gray-50 rounded-xl">
+                                    <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    </svg>
+                                    <p class="text-gray-500 text-sm">No hay lugares agregados.</p>
+                                </div>
+                            </template>
+
+                            <template x-if="lugares.length > 0">
+                                <div class="space-y-2">
+                                    <template x-for="(lugar, index) in lugares" :key="index">
+                                        <div class="bg-gray-50 p-3 rounded-xl flex items-center justify-between hover:bg-gray-100 transition group">
+                                            <div class="flex items-center gap-3">
+                                                <span class="w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center text-white font-bold text-sm" x-text="lugar.orden"></span>
+                                                <div>
+                                                    <p class="font-medium text-gray-800" x-text="lugar.nombre"></p>
+                                                    <p class="text-xs text-gray-500">Orden: <span x-text="lugar.orden"></span></p>
+                                                </div>
+                                            </div>
+                                            <button type="button" @click="eliminar(index)" class="text-red-600 hover:text-red-800 text-sm font-medium opacity-0 group-hover:opacity-100 transition">
+                                                Eliminar
+                                            </button>
+                                            <input type="hidden" :name="'lugares[' + index + '][lugar_id]'" :value="lugar.id">
+                                            <input type="hidden" :name="'lugares[' + index + '][orden]'" :value="lugar.orden">
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+
                         <div class="flex items-center gap-4 pt-4 border-t">
                             <button type="submit" class="flex-1 bg-emerald-600 text-white py-2.5 px-6 rounded-xl hover:bg-emerald-700 transition font-semibold shadow-lg hover:shadow-xl">
                                 Actualizar Ruta
@@ -83,93 +160,6 @@ unset($__errorArgs, $__bag); ?>
                             </a>
                         </div>
                     </form>
-                </div>
-
-                <div class="space-y-6">
-                    <div class="bg-white rounded-2xl shadow-lg p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-xl font-bold text-gray-800">Lugares</h3>
-                            <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">
-                                <?php echo e($ruta->lugares ? $ruta->lugares->count() : 0); ?> lugares
-                            </span>
-                        </div>
-
-                        <?php if($ruta->lugares && $ruta->lugares->count() > 0): ?>
-                            <div class="space-y-3">
-                                <?php $__currentLoopData = $ruta->lugares; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lugar): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="bg-gray-50 p-4 rounded-xl flex items-center justify-between hover:bg-gray-100 transition group">
-                                        <div class="flex items-center gap-4">
-                                            <?php if($lugar->imagen): ?>
-                                                <img src="<?php echo e(asset('storage/' . $lugar->imagen)); ?>"
-                                                     class="w-12 h-12 object-cover rounded-lg">
-                                            <?php else: ?>
-                                                <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center text-white font-bold">
-                                                    <?php echo e($lugar->orden); ?>
-
-                                                </div>
-                                            <?php endif; ?>
-                                            <div>
-                                                <p class="font-medium text-gray-800"><?php echo e($lugar->nombre); ?></p>
-                                                <p class="text-xs text-gray-500">Orden: <?php echo e($lugar->orden); ?></p>
-                                            </div>
-                                        </div>
-
-                                        <form action="<?php echo e(route('admin.lugares.destroy', $lugar->id)); ?>" method="POST" onsubmit="return confirm('¿Eliminar este lugar?')">
-                                            <?php echo csrf_field(); ?>
-                                            <?php echo method_field('DELETE'); ?>
-                                            <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium opacity-0 group-hover:opacity-100 transition">
-                                                Eliminar
-                                            </button>
-                                        </form>
-                                    </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </div>
-                        <?php else: ?>
-                            <div class="text-center py-6">
-                                <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                </svg>
-                                <p class="text-gray-500 text-sm">No hay lugares agregados aún.</p>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="bg-white rounded-2xl shadow-lg p-6">
-                        <h4 class="text-lg font-bold text-gray-800 mb-4">Agregar Lugar</h4>
-
-                        <form action="<?php echo e(route('admin.rutas.lugares', $ruta->id)); ?>" method="POST" enctype="multipart/form-data" class="space-y-4">
-                            <?php echo csrf_field(); ?>
-
-                            <div>
-                                <label for="lugar_nombre" class="block text-gray-700 text-sm font-medium mb-1">Nombre</label>
-                                <input type="text" name="nombre" id="lugar_nombre" placeholder="Nombre del lugar" required
-                                       class="w-full border-gray-300 rounded-xl shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
-                            </div>
-
-                            <div>
-                                <label for="lugar_descripcion" class="block text-gray-700 text-sm font-medium mb-1">Descripción</label>
-                                <textarea name="descripcion" id="lugar_descripcion" rows="2" placeholder="Descripción corta"
-                                          class="w-full border-gray-300 rounded-xl shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"></textarea>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label for="lugar_orden" class="block text-gray-700 text-sm font-medium mb-1">Orden</label>
-                                    <input type="number" name="orden" id="lugar_orden" placeholder="Orden" min="1" required
-                                           class="w-full border-gray-300 rounded-xl shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
-                                </div>
-                                <div>
-                                    <label for="lugar_imagen" class="block text-gray-700 text-sm font-medium mb-1">Imagen</label>
-                                    <input type="file" name="imagen" id="lugar_imagen"
-                                           class="w-full border-gray-300 rounded-xl p-2 bg-gray-50 text-sm">
-                                </div>
-                            </div>
-
-                            <button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-xl hover:bg-blue-700 transition font-semibold">
-                                Agregar Lugar
-                            </button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>

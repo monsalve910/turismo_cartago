@@ -16,8 +16,8 @@
                 </svg>
             </a>
             <div>
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Editar Lugar</h2>
-                <p class="text-sm text-gray-500"><?php echo e($lugar->nombre); ?></p>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Crear Nuevo Lugar</h2>
+                <p class="text-sm text-gray-500">Agrega un nuevo lugar turístico</p>
             </div>
         </div>
      <?php $__env->endSlot(); ?>
@@ -26,13 +26,12 @@
         <div class="max-w-xl mx-auto">
             <div class="bg-white rounded-2xl shadow-lg p-8">
                 <div class="mb-6">
-                    <h3 class="text-2xl font-bold text-gray-800">Modificar Lugar</h3>
-                    <p class="text-gray-500 mt-1">Modifica la información de <?php echo e($lugar->nombre); ?></p>
+                    <h3 class="text-2xl font-bold text-gray-800">Nuevo Lugar</h3>
+                    <p class="text-gray-500 mt-1">Agrega un nuevo lugar turístico</p>
                 </div>
 
-                <form action="<?php echo e(route('admin.lugares.update', $lugar->id)); ?>" method="POST" enctype="multipart/form-data" class="space-y-5">
+                <form action="<?php echo e(route('admin.lugares.store')); ?>" method="POST" enctype="multipart/form-data" class="space-y-5">
                     <?php echo csrf_field(); ?>
-                    <?php echo method_field('PUT'); ?>
 
                     <div>
                         <label for="nombre" class="block text-gray-700 font-semibold mb-2">Nombre del Lugar</label>
@@ -42,8 +41,9 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                 </svg>
                             </div>
-                            <input type="text" name="nombre" id="nombre" value="<?php echo e($lugar->nombre); ?>" required
-                                   class="pl-10 block w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
+                            <input type="text" name="nombre" id="nombre" required
+                                   class="pl-10 block w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"
+                                   placeholder="Ej: Parque del Café">
                         </div>
                         <?php $__errorArgs = ['nombre'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -60,7 +60,8 @@ unset($__errorArgs, $__bag); ?>
                     <div>
                         <label for="descripcion" class="block text-gray-700 font-semibold mb-2">Descripción</label>
                         <textarea name="descripcion" id="descripcion" rows="3"
-                                  class="w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"><?php echo e($lugar->descripcion); ?></textarea>
+                                  class="w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"
+                                  placeholder="Describe el lugar turístico..."></textarea>
                         <?php $__errorArgs = ['descripcion'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -74,7 +75,7 @@ unset($__errorArgs, $__bag); ?>
                     </div>
 
                     <div>
-                        <label for="imagen" class="block text-gray-700 font-semibold mb-2">Cambiar Imagen (opcional)</label>
+                        <label for="imagen" class="block text-gray-700 font-semibold mb-2">Imagen (opcional)</label>
                         <input type="file" name="imagen" id="imagen"
                                class="block w-full rounded-xl border-gray-300 p-2.5 bg-gray-50 text-sm">
                         <?php $__errorArgs = ['imagen'];
@@ -89,34 +90,15 @@ endif;
 unset($__errorArgs, $__bag); ?>
                     </div>
 
-                    <?php if($lugar->imagen): ?>
-                        <div>
-                            <label class="block text-gray-700 font-semibold mb-2">Imagen Actual</label>
-                            <img src="<?php echo e(asset('storage/' . $lugar->imagen)); ?>" alt="<?php echo e($lugar->nombre); ?>" class="w-32 h-32 object-cover rounded-lg">
-                        </div>
-                    <?php endif; ?>
-
                     <div class="flex items-center gap-4 pt-4 border-t">
                         <button type="submit" class="flex-1 bg-emerald-600 text-white py-2.5 px-6 rounded-xl hover:bg-emerald-700 transition font-semibold shadow-lg hover:shadow-xl">
-                            Actualizar Lugar
+                            Crear Lugar
                         </button>
                         <a href="<?php echo e(route('admin.lugares.index')); ?>" class="flex-1 text-center bg-gray-100 text-gray-700 py-2.5 px-6 rounded-xl hover:bg-gray-200 transition font-semibold">
                             Cancelar
                         </a>
                     </div>
                 </form>
-
-                <div class="mt-8 pt-6 border-t border-red-200">
-                    <h3 class="text-lg font-bold text-red-600 mb-3">Zona de Peligro</h3>
-                    <p class="text-gray-600 text-sm mb-4">Esta acción eliminará permanentemente el lugar.</p>
-                    <form action="<?php echo e(route('admin.lugares.destroy', $lugar->id)); ?>" method="POST" onsubmit="return confirm('¿ESTÁS SEGURO de eliminar este lugar?')">
-                        <?php echo csrf_field(); ?>
-                        <?php echo method_field('DELETE'); ?>
-                        <button type="submit" class="bg-red-600 text-white px-6 py-2.5 rounded-xl hover:bg-red-700 transition font-semibold">
-                            Eliminar Lugar
-                        </button>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
@@ -130,4 +112,4 @@ unset($__errorArgs, $__bag); ?>
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
 <?php endif; ?>
-<?php /**PATH C:\Users\apesi\turismo-cartago\resources\views/admin/lugares/edit.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\apesi\turismo-cartago\resources\views/admin/lugares/create.blade.php ENDPATH**/ ?>

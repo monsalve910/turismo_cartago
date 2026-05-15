@@ -122,7 +122,6 @@
                 <div>
                     <h3 class="text-white font-semibold mb-3">Contacto</h3>
                     <p class="text-sm text-gray-400">Cartago, Colombia</p>
-                    <p class="text-sm text-gray-400">info@turismocartago.com</p>
                 </div>
 
             </div>

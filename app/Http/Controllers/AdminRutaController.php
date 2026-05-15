@@ -31,20 +31,19 @@ class AdminRutaController extends Controller
 
         $ruta = Ruta::create($validated);
 
-        // Si quieres guardar lugares desde aquí (uno a muchos)
         if ($request->has('lugares')) {
-            foreach ($request->lugares as $lugar) {
-                $ruta->lugares()->create([
-                    'nombre' => $lugar['nombre'],
-                    'descripcion' => $lugar['descripcion'] ?? null,
-                    'orden' => $lugar['orden'] ?? 0,
-                    'imagen' => $lugar['imagen'] ?? null,
-                ]);
+            foreach ($request->lugares as $item) {
+                if (isset($item['lugar_id']) && isset($item['orden'])) {
+                    Lugar::where('id', $item['lugar_id'])->update([
+                        'ruta_id' => $ruta->id,
+                        'orden' => $item['orden'],
+                    ]);
+                }
             }
         }
 
-        return redirect()->route('admin.rutas.edit', $ruta->id)
-            ->with('success', 'Ruta creada exitosamente. Ahora puedes agregar lugares.');
+        return redirect()->route('admin.rutas.index')
+            ->with('success', 'Ruta creada exitosamente.');
     }
 
     public function show($id)
@@ -73,6 +72,23 @@ class AdminRutaController extends Controller
 
         $ruta->update($validated);
 
+        $nuevosIds = [];
+        if ($request->has('lugares')) {
+            foreach ($request->lugares as $item) {
+                if (isset($item['lugar_id']) && isset($item['orden'])) {
+                    $nuevosIds[] = $item['lugar_id'];
+                    Lugar::where('id', $item['lugar_id'])->update([
+                        'ruta_id' => $ruta->id,
+                        'orden' => $item['orden'],
+                    ]);
+                }
+            }
+        }
+
+        Lugar::where('ruta_id', $ruta->id)
+            ->whereNotIn('id', $nuevosIds)
+            ->update(['ruta_id' => null, 'orden' => null]);
+
         return redirect()->route('admin.rutas.index')
             ->with('success', 'Ruta actualizada exitosamente');
     }
@@ -83,26 +99,5 @@ class AdminRutaController extends Controller
         $ruta->delete();
 
         return redirect()->route('admin.rutas.index')->with('success', 'Ruta eliminada exitosamente');
-    }
-
-    public function agregarLugar(Request $request, $id)
-    {
-        $ruta = Ruta::findOrFail($id);
-
-        $imagenPath = null;
-
-        if ($request->hasFile('imagen')) {
-            $imagenPath = $request->file('imagen')->store('lugares', 'public');
-        }
-
-        // dd($id, Ruta::find($id));
-        $ruta->lugares()->create([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'orden' => $request->orden,
-            'imagen' => $imagenPath,
-        ]);
-
-        return back()->with('success', 'Lugar agregado correctamente');
     }
 }

@@ -8,7 +8,7 @@
             </a>
             <div>
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">Crear Nuevo Lugar</h2>
-                <p class="text-sm text-gray-500">Agrega un lugar turístico a una ruta</p>
+                <p class="text-sm text-gray-500">Agrega un nuevo lugar turístico</p>
             </div>
         </div>
     </x-slot>
@@ -23,20 +23,6 @@
 
                 <form action="{{ route('admin.lugares.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
                     @csrf
-
-                    <div>
-                        <label for="ruta_id" class="block text-gray-700 font-semibold mb-2">Ruta</label>
-                        <select name="ruta_id" id="ruta_id" required 
-                                class="w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
-                            <option value="">Seleccione una ruta...</option>
-                            @foreach($rutas as $ruta)
-                                <option value="{{ $ruta->id }}">{{ $ruta->nombre }}</option>
-                            @endforeach
-                        </select>
-                        @error('ruta_id')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
 
                     <div>
                         <label for="nombre" class="block text-gray-700 font-semibold mb-2">Nombre del Lugar</label>
@@ -65,33 +51,13 @@
                         @enderror
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="orden" class="block text-gray-700 font-semibold mb-2">Orden</label>
-                            <input type="number" name="orden" id="orden" min="1" required
-                                   class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"
-                                   placeholder="Orden">
-                            @error('orden')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div>
-                            <label for="imagen" class="block text-gray-700 font-semibold mb-2">Imagen</label>
-                            <input type="file" name="imagen" id="imagen"
-                                   class="block w-full rounded-xl border-gray-300 p-2.5 bg-gray-50 text-sm">
-                            @error('imagen')
-                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
-                        <div class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <p class="text-sm text-blue-800">El orden determina la secuencia de este lugar dentro de la ruta.</p>
-                        </div>
+                    <div>
+                        <label for="imagen" class="block text-gray-700 font-semibold mb-2">Imagen (opcional)</label>
+                        <input type="file" name="imagen" id="imagen"
+                               class="block w-full rounded-xl border-gray-300 p-2.5 bg-gray-50 text-sm">
+                        @error('imagen')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="flex items-center gap-4 pt-4 border-t">

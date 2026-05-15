@@ -84,7 +84,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('categorias', AdminCategoriaController::class);
     Route::resource('rutas', AdminRutaController::class);
     Route::resource('lugares', AdminLugarController::class);
-    Route::post('rutas/{id}/lugares', [AdminRutaController::class, 'agregarLugar'])->name('rutas.lugares');
 
     Route::resource('administradores', AdministradorController::class);
 
