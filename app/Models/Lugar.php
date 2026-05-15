@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lugar extends Model
 {
-     protected $table = 'lugares';
-    public function ruta()
+    protected $table = 'lugares';
+
+    public function rutas()
     {
-        return $this->belongsTo(Ruta::class);
+        return $this->belongsToMany(Ruta::class, 'lugar_ruta')->withPivot('orden');
     }
-    protected $fillable = ['ruta_id', 'nombre', 'descripcion',"ubicacion", 'orden','imagen'];
+
+    protected $fillable = ['nombre', 'descripcion', 'ubicacion', 'imagen'];
 }

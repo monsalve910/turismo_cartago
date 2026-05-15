@@ -42,10 +42,10 @@
                             <div class="border-t pt-6">
                                 <h4 class="text-lg font-bold text-gray-800 mb-4">Lugares en esta ruta</h4>
                                 <div class="space-y-3">
-                                    <?php $__currentLoopData = $ruta->lugares->sortBy('orden'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lugar): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php $__currentLoopData = $ruta->lugares->sortBy('pivot.orden'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lugar): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition group">
                                             <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
-                                                <?php echo e($lugar->orden); ?>
+                                                <?php echo e($lugar->pivot->orden); ?>
 
                                             </div>
                                             <?php if($lugar->imagen): ?>

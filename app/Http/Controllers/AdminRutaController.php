@@ -32,14 +32,13 @@ class AdminRutaController extends Controller
         $ruta = Ruta::create($validated);
 
         if ($request->has('lugares')) {
+            $syncData = [];
             foreach ($request->lugares as $item) {
                 if (isset($item['lugar_id']) && isset($item['orden'])) {
-                    Lugar::where('id', $item['lugar_id'])->update([
-                        'ruta_id' => $ruta->id,
-                        'orden' => $item['orden'],
-                    ]);
+                    $syncData[$item['lugar_id']] = ['orden' => $item['orden']];
                 }
             }
+            $ruta->lugares()->sync($syncData);
         }
 
         return redirect()->route('admin.rutas.index')
@@ -72,22 +71,15 @@ class AdminRutaController extends Controller
 
         $ruta->update($validated);
 
-        $nuevosIds = [];
+        $syncData = [];
         if ($request->has('lugares')) {
             foreach ($request->lugares as $item) {
                 if (isset($item['lugar_id']) && isset($item['orden'])) {
-                    $nuevosIds[] = $item['lugar_id'];
-                    Lugar::where('id', $item['lugar_id'])->update([
-                        'ruta_id' => $ruta->id,
-                        'orden' => $item['orden'],
-                    ]);
+                    $syncData[$item['lugar_id']] = ['orden' => $item['orden']];
                 }
             }
         }
-
-        Lugar::where('ruta_id', $ruta->id)
-            ->whereNotIn('id', $nuevosIds)
-            ->update(['ruta_id' => null, 'orden' => null]);
+        $ruta->lugares()->sync($syncData);
 
         return redirect()->route('admin.rutas.index')
             ->with('success', 'Ruta actualizada exitosamente');

@@ -12,8 +12,9 @@ class Ruta extends Model
 
     public function lugares()
     {
-        return $this->hasMany(Lugar::class);
+        return $this->belongsToMany(Lugar::class, 'lugar_ruta')->withPivot('orden');
     }
+
     public function tours()
     {
         return $this->belongsToMany(Tour::class, 'ruta_tour');

@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="border-t pt-5" x-data="{
-                            lugares: {{ json_encode($ruta->lugares->map(fn($l) => ['id' => $l->id, 'nombre' => $l->nombre, 'orden' => $l->orden])) }},
+                            lugares: {{ json_encode($ruta->lugares->map(fn($l) => ['id' => $l->id, 'nombre' => $l->nombre, 'orden' => $l->pivot->orden])) }},
                             selectLugarId: '',
                             selectOrden: '',
                             get lugaresDisponibles() {

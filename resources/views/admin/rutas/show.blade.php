@@ -33,10 +33,10 @@
                             <div class="border-t pt-6">
                                 <h4 class="text-lg font-bold text-gray-800 mb-4">Lugares en esta ruta</h4>
                                 <div class="space-y-3">
-                                    @foreach($ruta->lugares->sortBy('orden') as $lugar)
+                                    @foreach($ruta->lugares->sortBy('pivot.orden') as $lugar)
                                         <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition group">
                                             <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
-                                                {{ $lugar->orden }}
+                                                {{ $lugar->pivot->orden }}
                                             </div>
                                             @if($lugar->imagen)
                                                 <img src="{{ asset('storage/' . $lugar->imagen) }}" alt="{{ $lugar->nombre }}" class="w-12 h-12 object-cover rounded-lg">
