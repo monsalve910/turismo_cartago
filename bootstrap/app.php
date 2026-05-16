@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => EnsureUserIsAdmin::class,
         ]);
     })
+    ->withSchedule(function ($schedule) {
+        $schedule->command('reservaciones:finalizar')->daily();
+    })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

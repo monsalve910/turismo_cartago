@@ -153,10 +153,10 @@
 
                                     @if($status == 'aprobada')
 
-                                    <form action="{{ route('admin.reservaciones.finalizar', $reserva->id) }}" method="POST">
+                                    <form action="{{ route('admin.reservaciones.cancelar', $reserva->id) }}" method="POST" onsubmit="return confirm('¿Cancelar reserva?')">
                                         @csrf
-                                        <button type="submit" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1">
-                                            Finalizar
+                                        <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium flex items-center gap-1">
+                                            Cancelar
                                         </button>
                                     </form>
 

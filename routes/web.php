@@ -90,7 +90,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('reservaciones', [ReservasController::class, 'admin'])->name('reservaciones.index');
     Route::post('reservaciones/{id}/aprobar', [ReservasController::class, 'aprobar'])->name('reservaciones.aprobar');
     Route::post('/reservaciones/{id}/cancelar', [ReservasController::class, 'cancelar'])->name('reservaciones.cancelar');
-    Route::post('reservaciones/{id}/finalizar', [ReservasController::class, 'finalizar'])->name('reservaciones.finalizar');
 
     Route::get('reportes', [ReporteController::class, 'index'])->name('reportes.index');
     Route::get('reportes/estadisticas', [ReporteController::class, 'estadisticas'])->name('reportes.estadisticas');
