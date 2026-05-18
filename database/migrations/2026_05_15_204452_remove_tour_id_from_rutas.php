@@ -6,21 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::table('rutas', function (Blueprint $table) {
-
-            $table->dropForeign(['tour_id']);
-            $table->dropColumn('tour_id');
-        });
+        // No hacer nada porque la columna no existe
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('rutas', function (Blueprint $table) {
