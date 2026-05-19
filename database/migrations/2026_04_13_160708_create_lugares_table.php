@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('ruta_id')->constrained()->onDelete('cascade');
             $table->string('nombre');
             $table->text('descripcion');
-            $table->integer('orden')->nullable()->change();;
+            $table->integer('orden')->nullable()->change();
             $table->timestamps();
         });
     }
