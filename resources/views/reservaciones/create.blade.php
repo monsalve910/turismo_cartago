@@ -65,20 +65,17 @@
                 </div>
 
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Fecha Preferida</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                        </div>
-                        <input type="date" name="fecha" required
-                               class="pl-10 block w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"
-                               min="{{ date('Y-m-d') }}">
-                    </div>
-                    @error('fecha')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+                   @if(isset($tour))
+    <div>
+        <label class="block text-gray-700 font-semibold mb-2">
+            Fecha del Tour
+        </label>
+
+        <div class="w-full rounded-lg bg-gray-100 p-3 text-gray-700">
+            {{ \Carbon\Carbon::parse($tour->fecha)->format('d/m/Y') }}
+        </div>
+    </div>
+@endif
                 </div>
 
                 <div>

@@ -62,15 +62,19 @@
                                             {{ $reserva->fecha_reservacion ? $reserva->fecha_reservacion->format('d/m/Y') : 'Fecha no disponible' }}
                                         </p>
                                     </div>
-                                    <span class="px-3 py-1 rounded-full text-xs font-semibold
-                                        @if($reserva->status === 'pendiente') bg-yellow-100 text-yellow-700
-                                        @elseif($reserva->status === 'aprobada') bg-green-100 text-green-700
+                                    @php
+                                      $statusClasses = match($reserva->status) {
+                                      'pendiente' => 'bg-yellow-100 text-yellow-700',
+                                        'aprobada' => 'bg-green-100 text-green-700',
+                                        'iniciada' => 'bg-cyan-100 text-cyan-700',
+                                        'finalizada' => 'bg-blue-100 text-blue-700',
+                                        default => 'bg-red-100 text-red-700',
+                                    };
+                                @endphp
 
-                                        @elseif($reserva->status === 'iniciada') bg-cyan-100 text-cyan-700
-                                        @elseif($reserva->status === 'finalizada') bg-blue-100 text-blue-700
-                                        @else bg-red-100 text-red-700 @endif">
-                                        {{ ucfirst($reserva->status) }}
-                                    </span>
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold {{ $statusClasses }}">
+                                    {{ ucfirst($reserva->status) }}
+                                </span>
                                 </div>
                                 <div class="flex items-center gap-4 mt-3 text-sm text-gray-600">
                                     <span>{{ $reserva->cantidad_personas }} persona(s)</span>
