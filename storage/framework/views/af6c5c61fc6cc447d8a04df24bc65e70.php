@@ -73,16 +73,20 @@
 
                                         </p>
                                     </div>
-                                    <span class="px-3 py-1 rounded-full text-xs font-semibold
-                                        <?php if($reserva->status === 'pendiente'): ?> bg-yellow-100 text-yellow-700
-                                        <?php elseif($reserva->status === 'aprobada'): ?> bg-green-100 text-green-700
+                                    <?php
+                                      $statusClasses = match($reserva->status) {
+                                      'pendiente' => 'bg-yellow-100 text-yellow-700',
+                                        'aprobada' => 'bg-green-100 text-green-700',
+                                        'iniciada' => 'bg-cyan-100 text-cyan-700',
+                                        'finalizada' => 'bg-blue-100 text-blue-700',
+                                        default => 'bg-red-100 text-red-700',
+                                    };
+                                ?>
 
-                                        <?php elseif($reserva->status === 'iniciada'): ?> bg-cyan-100 text-cyan-700
-                                        <?php elseif($reserva->status === 'finalizada'): ?> bg-blue-100 text-blue-700
-                                        <?php else: ?> bg-red-100 text-red-700 <?php endif; ?>">
-                                        <?php echo e(ucfirst($reserva->status)); ?>
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold <?php echo e($statusClasses); ?>">
+                                    <?php echo e(ucfirst($reserva->status)); ?>
 
-                                    </span>
+                                </span>
                                 </div>
                                 <div class="flex items-center gap-4 mt-3 text-sm text-gray-600">
                                     <span><?php echo e($reserva->cantidad_personas); ?> persona(s)</span>
