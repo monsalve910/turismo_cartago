@@ -48,7 +48,7 @@ class ReservasController extends Controller
             return back()->withErrors(['numero_personas' => 'La cantidad de personas no puede exceder la capacidad del tour (' . $tour->capacidad . ').']);
         }
 
-        if ($tour->fecha < now()->toDateString()) {
+        if (\Carbon\Carbon::parse($tour->fecha)->isBefore(today())) {
             return back()->with('error', 'No puedes reservar un tour cuya fecha ya pasó.');
         }
 
