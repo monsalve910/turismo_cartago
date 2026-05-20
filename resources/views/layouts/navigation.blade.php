@@ -38,8 +38,19 @@
                         Administradores
                     </x-nav-link>
 
+                    <x-nav-link :href="route('admin.guias.index')" :active="request()->routeIs('admin.guias.*')">
+                        Guías
+                    </x-nav-link>
+
                     <x-nav-link :href="route('admin.reportes.index')" :active="request()->routeIs('admin.reportes.*')">
                         Reportes
+                    </x-nav-link>
+                    @elseif(auth()->user()->role === 'guia')
+                    <x-nav-link :href="route('guia.dashboard')" :active="request()->routeIs('guia.*')">
+                        Dashboard
+                    </x-nav-link>
+                    <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
+                        Perfil
                     </x-nav-link>
                     @else
                     <x-nav-link :href="url('/')" :active="request()->is('/')">
@@ -71,6 +82,10 @@
                 @if(auth()->user()->role === 'admin')
                 <span class="bg-purple-100 text-purple-700 text-xs font-semibold px-3 py-1 rounded-full mr-4">
                     Administrador
+                </span>
+                @elseif(auth()->user()->role === 'guia')
+                <span class="bg-amber-100 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full mr-4">
+                    Guía
                 </span>
                 @endif
                 <x-dropdown align="right" width="48">
@@ -164,8 +179,19 @@
                 Administradores
             </x-responsive-nav-link>
 
+            <x-responsive-nav-link :href="route('admin.guias.index')" :active="request()->routeIs('admin.guias.*')">
+                Guías
+            </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="route('admin.reportes.index')" :active="request()->routeIs('admin.reportes.*')">
                 Reportes
+            </x-responsive-nav-link>
+            @elseif(auth()->user()->role === 'guia')
+            <x-responsive-nav-link :href="route('guia.dashboard')" :active="request()->routeIs('guia.*')">
+                Dashboard
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
+                Perfil
             </x-responsive-nav-link>
             @else
             <x-responsive-nav-link :href="url('/')" :active="request()->is('/')">

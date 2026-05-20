@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\AdminCategoriaController;
 use App\Http\Controllers\AdministradorController;
+use App\Http\Controllers\AdminGuiaController;
 use App\Http\Controllers\AdminLugarController;
 use App\Http\Controllers\AdminRutaController;
 use App\Http\Controllers\AdminTourController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ComentarioController;
+use App\Http\Controllers\GuiaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\ReservasController;
@@ -30,8 +32,14 @@ Route::resource('categorias', CategoriaController::class)->only(['index', 'show'
 // AUTH ROUTES (any authenticated user)
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        if (auth()->user()->role === 'admin') {
+        $user = auth()->user();
+
+        if ($user->role === 'admin') {
             return redirect()->route('admin.dashboard');
+        }
+
+        if ($user->role === 'guia') {
+            return redirect()->route('guia.dashboard');
         }
 
         $misReservas = Reservaciones::where('user_id', auth()->id())
@@ -59,6 +67,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/comentarios/{id}', [ComentarioController::class, 'destroy'])->name('comentarios.destroy');
 });
 
+// GUIDE ROUTES (auth + guia middleware)
+Route::middleware(['auth', 'guia'])->prefix('guia')->name('guia.')->group(function () {
+    Route::get('/dashboard', [GuiaController::class, 'dashboard'])->name('dashboard');
+    Route::post('/reservaciones/{id}/iniciar', [GuiaController::class, 'iniciar'])->name('reservaciones.iniciar');
+    Route::post('/reservaciones/{id}/finalizar', [GuiaController::class, 'finalizar'])->name('reservaciones.finalizar');
+});
+
 // ADMIN ROUTES (auth + admin middleware)
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
@@ -66,6 +81,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         $totalReservas = Reservaciones::count();
         $totalUsuarios = User::count();
         $totalRutas = Ruta::count();
+        $totalGuias = User::where('role', 'guia')->count();
         $recentReservas = Reservaciones::with(['tour', 'user'])
             ->latest('created_at')
             ->take(5)
@@ -76,6 +92,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
             'totalReservas',
             'totalUsuarios',
             'totalRutas',
+            'totalGuias',
             'recentReservas'
         ));
     })->name('dashboard');
@@ -86,6 +103,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('lugares', AdminLugarController::class);
 
     Route::resource('administradores', AdministradorController::class);
+    Route::resource('guias', AdminGuiaController::class);
+    Route::get('guias/{guia}/disponibilidad', [AdminGuiaController::class, 'disponibilidad'])->name('guias.disponibilidad');
+    Route::put('guias/{guia}/disponibilidad', [AdminGuiaController::class, 'updateDisponibilidad'])->name('guias.updateDisponibilidad');
 
     Route::get('reservaciones', [ReservasController::class, 'admin'])->name('reservaciones.index');
     Route::post('reservaciones/{id}/aprobar', [ReservasController::class, 'aprobar'])->name('reservaciones.aprobar');
