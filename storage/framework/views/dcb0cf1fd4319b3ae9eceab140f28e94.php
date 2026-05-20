@@ -112,8 +112,11 @@
                         <?php if(auth()->user()->role === 'admin'): ?>
                         <li><a href="<?php echo e(route('admin.dashboard')); ?>" class="hover:text-emerald-400">Dashboard</a></li>
                         <li><a href="<?php echo e(route('admin.tours.index')); ?>" class="hover:text-emerald-400">Tours</a></li>
+                        <li><a href="<?php echo e(route('admin.guias.index')); ?>" class="hover:text-emerald-400">Guías</a></li>
                         <li><a href="<?php echo e(route('admin.reservaciones.index')); ?>" class="hover:text-emerald-400">Reservas</a></li>
                         <li><a href="<?php echo e(route('admin.reportes.index')); ?>" class="hover:text-emerald-400">Reportes</a></li>
+                        <?php elseif(auth()->user()->role === 'guia'): ?>
+                        <li><a href="<?php echo e(route('guia.dashboard')); ?>" class="hover:text-emerald-400">Dashboard</a></li>
                         <?php endif; ?>
                         <?php endif; ?>
 
@@ -124,7 +127,6 @@
                 <div>
                     <h3 class="text-white font-semibold mb-3">Contacto</h3>
                     <p class="text-sm text-gray-400">Cartago, Colombia</p>
-                    <p class="text-sm text-gray-400">info@turismocartago.com</p>
                 </div>
 
             </div>

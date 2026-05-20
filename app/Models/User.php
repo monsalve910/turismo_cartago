@@ -33,4 +33,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reservaciones::class, 'user_id');
     }
+
+    public function guiaDisponibilidad()
+    {
+        return $this->hasMany(GuiaDisponibilidad::class, 'user_id');
+    }
+
+    public function reservacionesAsignadas()
+    {
+        return $this->hasMany(Reservaciones::class, 'guia_id');
+    }
+
+    public function esGuia(): bool
+    {
+        return $this->role === 'guia';
+    }
+
+    public function scopeGuias($query)
+    {
+        return $query->where('role', 'guia');
+    }
 }

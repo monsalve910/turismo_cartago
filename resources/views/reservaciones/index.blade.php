@@ -42,7 +42,7 @@
                     @php
                         $tourDate = \Carbon\Carbon::parse($reserva->tour->fecha);
                         $daysUntilTour = now()->startOfDay()->diffInDays($tourDate, false);
-                        $puedeCancelar = $reserva->status === 'aprobada' && $daysUntilTour >= 2;
+                        $puedeCancelar = in_array($reserva->status, ['pendiente', 'aprobada']) && $daysUntilTour >= 2;
                     @endphp
                     <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition">
                         <div class="flex items-start gap-4">
@@ -65,6 +65,8 @@
                                     <span class="px-3 py-1 rounded-full text-xs font-semibold
                                         @if($reserva->status === 'pendiente') bg-yellow-100 text-yellow-700
                                         @elseif($reserva->status === 'aprobada') bg-green-100 text-green-700
+
+                                        @elseif($reserva->status === 'iniciada') bg-cyan-100 text-cyan-700
                                         @elseif($reserva->status === 'finalizada') bg-blue-100 text-blue-700
                                         @else bg-red-100 text-red-700 @endif">
                                         {{ ucfirst($reserva->status) }}

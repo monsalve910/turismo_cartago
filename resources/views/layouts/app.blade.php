@@ -110,8 +110,11 @@
                         @if(auth()->user()->role === 'admin')
                         <li><a href="{{ route('admin.dashboard') }}" class="hover:text-emerald-400">Dashboard</a></li>
                         <li><a href="{{ route('admin.tours.index') }}" class="hover:text-emerald-400">Tours</a></li>
+                        <li><a href="{{ route('admin.guias.index') }}" class="hover:text-emerald-400">Guías</a></li>
                         <li><a href="{{ route('admin.reservaciones.index') }}" class="hover:text-emerald-400">Reservas</a></li>
                         <li><a href="{{ route('admin.reportes.index') }}" class="hover:text-emerald-400">Reportes</a></li>
+                        @elseif(auth()->user()->role === 'guia')
+                        <li><a href="{{ route('guia.dashboard') }}" class="hover:text-emerald-400">Dashboard</a></li>
                         @endif
                         @endauth
 

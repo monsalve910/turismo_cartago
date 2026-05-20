@@ -12,7 +12,7 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
             <div class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-emerald-500 hover:shadow-xl transition">
                 <div class="flex items-center justify-between">
                     <div>
@@ -68,6 +68,20 @@
                     </div>
                 </div>
             </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-orange-500 hover:shadow-xl transition">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium">Total Guías</p>
+                        <p class="text-3xl font-bold text-gray-800 mt-2">{{ $totalGuias ?? 0 }}</p>
+                    </div>
+                    <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-7 h-7 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
@@ -108,6 +122,12 @@
                     </svg>
                     <span class="font-medium text-purple-700 text-sm">Admin</span>
                 </a>
+                <a href="{{ route('admin.guias.index') }}" class="flex flex-col items-center gap-2 p-4 bg-amber-50 rounded-xl hover:bg-amber-100 transition group">
+                    <svg class="w-8 h-8 text-amber-600 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    </svg>
+                    <span class="font-medium text-amber-700 text-sm">Guías</span>
+                </a>
                 <a href="{{ route('admin.reportes.index') }}" class="flex flex-col items-center gap-2 p-4 bg-red-50 rounded-xl hover:bg-red-100 transition group">
                     <svg class="w-8 h-8 text-red-600 group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -141,13 +161,15 @@
                                 <tr class="border-t hover:bg-gray-50 transition">
                                     <td class="p-4 font-medium">{{ $reserva->tour->nombre ?? 'N/A' }}</td>
                                     <td class="p-4">{{ $reserva->user->name ?? 'N/A' }}</td>
-                                    <td class="p-4">{{ \Carbon\Carbon::parse($reserva->fecha)->format('d/m/Y') }}</td>
+                                    <td class="p-4">{{ $reserva->fecha_reservacion ? \Carbon\Carbon::parse($reserva->fecha_reservacion)->format('d/m/Y') : '---' }}</td>
                                     <td class="p-4">
                                         <span class="px-3 py-1 rounded-full text-xs font-semibold
-                                            @if($reserva->estado == 'pendiente') bg-yellow-100 text-yellow-700
-                                            @elseif($reserva->estado == 'aprobada') bg-green-100 text-green-700
-                                            @elseif($reserva->estado == 'cancelada') bg-red-100 text-red-700
-                                            @elseif($reserva->estado == 'finalizada') bg-blue-100 text-blue-700
+                                            @if($reserva->status == 'pendiente') bg-yellow-100 text-yellow-700
+                                            @elseif($reserva->status == 'aprobada') bg-green-100 text-green-700
+
+                                            @elseif($reserva->status == 'iniciada') bg-cyan-100 text-cyan-700
+                                            @elseif($reserva->status == 'finalizada') bg-blue-100 text-blue-700
+                                            @elseif($reserva->status == 'cancelada') bg-red-100 text-red-700
                                             @else bg-gray-100 text-gray-700
                                             @endif">
                                             {{ ucfirst($reserva->status) }}

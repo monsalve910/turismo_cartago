@@ -34,6 +34,10 @@
                         @if(request('status') == 'aprobada') bg-green-500 text-white @else text-gray-600 hover:bg-gray-100 @endif">
                         Aprobadas
                     </a>
+                    <a href="{{ route('admin.reservaciones.index', ['status' => 'iniciada']) }}" class="px-4 py-2 rounded-lg font-medium transition
+                        @if(request('status') == 'iniciada') bg-cyan-500 text-white @else text-gray-600 hover:bg-gray-100 @endif">
+                        Iniciadas
+                    </a>
                     <a href="{{ route('admin.reservaciones.index', ['status' => 'finalizada']) }}" class="px-4 py-2 rounded-lg font-medium transition
                         @if(request('status') == 'finalizada') bg-blue-500 text-white @else text-gray-600 hover:bg-gray-100 @endif">
                         Finalizadas
@@ -66,6 +70,7 @@
                         <tr>
                             <th class="p-4 font-semibold text-gray-700">Cliente</th>
                             <th class="p-4 font-semibold text-gray-700">Tour</th>
+                            <th class="p-4 font-semibold text-gray-700">Guía</th>
                             <th class="p-4 font-semibold text-gray-700">Fecha</th>
                             <th class="p-4 font-semibold text-gray-700">Personas</th>
                             <th class="p-4 font-semibold text-gray-700">Estado</th>
@@ -104,6 +109,17 @@
                                 @endif
                             </td>
 
+                            <!-- GUÍA -->
+                            <td class="p-4 text-sm">
+                                @if($reserva->guia)
+                                    <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-xs font-semibold">
+                                        {{ $reserva->guia->name }}
+                                    </span>
+                                @else
+                                    <span class="text-gray-400">---</span>
+                                @endif
+                            </td>
+
                             <!-- FECHA -->
                             <td class="p-4 text-sm text-gray-600">
                                 {{ \Carbon\Carbon::parse($reserva->fecha_reservacion ?? $reserva->created_at)->format('d/m/Y') }}
@@ -121,8 +137,9 @@
                                 <span class="px-3 py-1 rounded-full text-xs font-semibold
                                             @if($status == 'pendiente') bg-yellow-100 text-yellow-700
                                             @elseif($status == 'aprobada') bg-green-100 text-green-700
-                                            @elseif($status == 'cancelada') bg-red-100 text-red-700
+                                            @elseif($status == 'iniciada') bg-cyan-100 text-cyan-700
                                             @elseif($status == 'finalizada') bg-blue-100 text-blue-700
+                                            @elseif($status == 'cancelada') bg-red-100 text-red-700
                                             @else bg-gray-100 text-gray-700
                                             @endif">
                                     {{ ucfirst($status) }}

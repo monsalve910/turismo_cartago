@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GuiaDisponibilidad;
 use App\Models\Reservaciones;
 use App\Models\Tour;
 use Carbon\Carbon;
@@ -59,6 +60,8 @@ class ReservasController extends Controller
             'status' => 'aprobada',
         ]);
 
+        $this->asignarGuia($reservacion, $validated['fecha']);
+
         return redirect()->route('reservaciones.index')
             ->with('success', 'Reservación creada y aprobada automáticamente.');
     }
@@ -75,7 +78,7 @@ class ReservasController extends Controller
 
     public function admin()
     {
-        $reservas = Reservaciones::with(['tour', 'user'])
+        $reservas = Reservaciones::with(['tour', 'user', 'guia'])
             ->when(request('status'), function ($q, $status) {
                 $q->where('status', $status);
             })
@@ -97,7 +100,9 @@ class ReservasController extends Controller
 
         $reservacion->update(['status' => 'aprobada']);
 
-        return back()->with('success', 'Reservación aprobada exitosamente.');
+        $this->asignarGuia($reservacion, $reservacion->fecha_reservacion);
+
+        return back()->with('success', 'Reservación aprobada y guía asignado exitosamente.');
     }
 
     public function cancelar(Request $request, $id)
@@ -109,7 +114,11 @@ class ReservasController extends Controller
             abort(403, 'No tienes permiso para cancelar esta reservación.');
         }
 
-        if (!in_array($reservacion->status, ['pendiente', 'aprobada'])) {
+        $cancelables = $user->role === 'admin'
+            ? ['pendiente', 'aprobada', 'iniciada']
+            : ['pendiente', 'aprobada'];
+
+        if (!in_array($reservacion->status, $cancelables)) {
             return back()->withErrors(['error' => 'Esta reservación no puede ser cancelada porque ya está ' . $reservacion->status . '.']);
         }
 
@@ -127,4 +136,48 @@ class ReservasController extends Controller
         return back()->with('success', 'Reservación cancelada exitosamente.');
     }
 
+    private function asignarGuia(Reservaciones $reservacion, $fecha, $hora = null)
+    {
+        $diaSemana = Carbon::parse($fecha)->dayOfWeek;
+
+        $guiasIds = GuiaDisponibilidad::where('dia_semana', $diaSemana)
+            ->where('activo', true)
+            ->pluck('user_id');
+
+        if ($guiasIds->isEmpty()) {
+            return;
+        }
+
+        $ocupadosIds = Reservaciones::whereIn('guia_id', $guiasIds)
+            ->where('fecha_tour', $fecha)
+            ->whereIn('status', ['aprobada', 'iniciada'])
+            ->when($hora, fn($q) => $q->where('hora_tour', $hora))
+            ->pluck('guia_id')
+            ->unique();
+
+        $libresIds = $guiasIds->diff($ocupadosIds);
+
+        if ($libresIds->isEmpty()) {
+            return;
+        }
+
+        $carga = Reservaciones::whereIn('guia_id', $libresIds)
+            ->where('fecha_tour', $fecha)
+            ->whereIn('status', ['aprobada', 'iniciada'])
+            ->selectRaw('guia_id, COUNT(*) as total')
+            ->groupBy('guia_id')
+            ->pluck('total', 'guia_id');
+
+        $menorCarga = $libresIds->map(fn($id) => $carga[$id] ?? 0)->min();
+
+        $candidatos = $libresIds->filter(fn($id) => ($carga[$id] ?? 0) === $menorCarga);
+
+        $seleccionado = $candidatos->count() > 1 ? $candidatos->random() : $candidatos->first();
+
+        $reservacion->update([
+            'guia_id' => $seleccionado,
+            'fecha_tour' => $fecha,
+            'hora_tour' => $hora,
+        ]);
+    }
 }

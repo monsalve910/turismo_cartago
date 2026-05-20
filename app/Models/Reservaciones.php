@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reservaciones extends Model
 {
-    protected $fillable = ['user_id', 'tour_id', 'fecha_reservacion', 'cantidad_personas', 'status'];
+    protected $fillable = ['user_id', 'tour_id', 'fecha_reservacion', 'cantidad_personas', 'status', 'guia_id', 'fecha_tour', 'hora_tour'];
 
     protected $casts = [
         'fecha_reservacion' => 'date',
+        'fecha_tour' => 'date',
     ];
 
     public function tour()
@@ -21,6 +22,11 @@ class Reservaciones extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function guia()
+    {
+        return $this->belongsTo(User::class, 'guia_id');
     }
 
     public function puedeCancelar(\Illuminate\Contracts\Auth\Authenticatable $user): bool
