@@ -27,4 +27,10 @@ class Tour extends Model
     {
         return $this->hasMany(Reservaciones::class, 'tour_id');
     }
+
+    public function horarios()
+    {
+        return $this->hasMany(TourHorario::class);
+    }
 }
+

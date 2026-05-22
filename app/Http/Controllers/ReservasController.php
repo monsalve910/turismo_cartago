@@ -27,7 +27,7 @@ class ReservasController extends Controller
         $tour = null;
 
         if (request('tour_id')) {
-            $tour = Tour::findOrFail(request('tour_id'));
+            $tour = Tour::with('horarios')->findOrFail(request('tour_id'));
         }
 
         $tours = Tour::whereDate('fecha', '>=', today())
@@ -42,20 +42,30 @@ class ReservasController extends Controller
         $validated = $request->validate([
             'tour_id' => 'required|exists:tours,id',
             'numero_personas' => 'required|integer|min:1',
+            'hora_tour' => 'required',
         ]);
 
         $tour = Tour::findOrFail($validated['tour_id']);
 
-        // Validar que el tour no esté vencido
+        // Validar que el horario seleccionado pertenezca al tour
+        $horarioValido = $tour->horarios()->where('hora', $validated['hora_tour'])->exists();
+        if (!$horarioValido) {
+            return back()->withErrors([
+                'hora_tour' => 'El horario seleccionado no esta disponible para este tour.'
+            ]);
+        }
+
+        // Validar que el tour no est� vencido
         if (Carbon::parse($tour->fecha)->isBefore(today())) {
             return back()->with(
                 'error',
-                'No puedes reservar un tour cuya fecha ya pasó.'
+                'No puedes reservar un tour cuya fecha ya paso.'
             );
         }
 
-        // Calcular cupos ya reservados
+        // Calcular cupos ya reservados para ese horario
         $reservados = Reservaciones::where('tour_id', $tour->id)
+            ->where('hora_tour', $validated['hora_tour'])
             ->whereIn('status', ['aprobada', 'iniciada'])
             ->sum('cantidad_personas');
 
@@ -65,28 +75,29 @@ class ReservasController extends Controller
         if ($validated['numero_personas'] > $cuposDisponibles) {
             return back()->withErrors([
                 'numero_personas' =>
-                    'Solo quedan ' . $cuposDisponibles . ' cupos disponibles.'
+                    'Solo quedan ' . $cuposDisponibles . ' cupos disponibles para este horario.'
             ]);
         }
 
-        // Crear reservación
+        // Crear reservaci�n
         $reservacion = Reservaciones::create([
             'user_id' => Auth::id(),
             'tour_id' => $tour->id,
             'fecha_reservacion' => now(),
             'fecha_tour' => $tour->fecha,
+            'hora_tour' => $validated['hora_tour'],
             'cantidad_personas' => $validated['numero_personas'],
             'status' => 'aprobada',
         ]);
 
-        // Asignar guía automáticamente
-        $this->asignarGuia($reservacion, $tour->fecha);
+        // Asignar gu�a autom�ticamente
+        $this->asignarGuia($reservacion, $tour->fecha, $validated['hora_tour']);
 
         return redirect()
             ->route('reservaciones.index')
             ->with(
                 'success',
-                'Reservación creada y aprobada automáticamente.'
+                'Reservacion creada y aprobada.'
             );
     }
 
@@ -133,7 +144,7 @@ class ReservasController extends Controller
             'status' => 'aprobada'
         ]);
 
-        // Asignar guía usando fecha del tour
+        // Asignar gu�a usando fecha del tour
         $this->asignarGuia(
             $reservacion,
             $reservacion->fecha_tour
@@ -141,7 +152,7 @@ class ReservasController extends Controller
 
         return back()->with(
             'success',
-            'Reservación aprobada y guía asignado exitosamente.'
+            'Reservacion aprobada y guia asignado exitosamente.'
         );
     }
 
@@ -158,7 +169,7 @@ class ReservasController extends Controller
         ) {
             abort(
                 403,
-                'No tienes permiso para cancelar esta reservación.'
+                'No tienes permiso para cancelar esta reservacion.'
             );
         }
 
@@ -169,7 +180,7 @@ class ReservasController extends Controller
         if (!in_array($reservacion->status, $cancelables)) {
             return back()->withErrors([
                 'error' =>
-                    'Esta reservación no puede ser cancelada porque ya está ' .
+                    'Esta reservacion no puede ser cancelada porque ya esta ' .
                     $reservacion->status . '.'
             ]);
         }
@@ -185,7 +196,7 @@ class ReservasController extends Controller
             if ($daysUntilTour < 2) {
                 return back()->withErrors([
                     'error' =>
-                        'No puedes cancelar con menos de 2 días de anticipación.'
+                        'No puedes cancelar con menos de 2 dias de anticipacion.'
                 ]);
             }
         }
@@ -196,7 +207,7 @@ class ReservasController extends Controller
 
         return back()->with(
             'success',
-            'Reservación cancelada exitosamente.'
+            'Reservacion cancelada exitosamente.'
         );
     }
 

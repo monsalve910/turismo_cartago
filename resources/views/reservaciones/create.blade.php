@@ -22,7 +22,7 @@
                     @endif
                     <div>
                         <h3 class="font-bold text-gray-800">{{ $tour->nombre }}</h3>
-                        <p class="text-sm text-gray-600">{{ \Carbon\Carbon::parse($tour->fecha)->format('d/m/Y') }} · ${{ number_format($tour->precio, 0, ',', '.') }} · {{ $tour->capacidad }} cupos</p>
+                        <p class="text-sm text-gray-600">{{ \Carbon\Carbon::parse($tour->fecha)->format('d/m/Y') }} � ${{ number_format($tour->precio, 0, ',', '.') }} � {{ $tour->capacidad }} cupos</p>
                     </div>
                 </div>
             @endif
@@ -35,7 +35,7 @@
                 @else
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Seleccionar Tour</label>
-                        <select name="tour_id" required class="w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
+                        <select name="tour_id" id="tour-select" required class="w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
                             <option value="">Elige un tour...</option>
                             @foreach($tours as $t)
                                 <option value="{{ $t->id }}">{{ $t->nombre }} - ${{ number_format($t->precio, 0, ',', '.') }}</option>
@@ -48,7 +48,7 @@
                 @endif
 
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-2">Número de Personas</label>
+                    <label class="block text-gray-700 font-semibold mb-2">Numero de Personas</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,11 +78,26 @@
 @endif
                 </div>
 
+                @if(isset($tour) && $tour->horarios && $tour->horarios->count() > 0)
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Horario del Tour</label>
+                    <select name="hora_tour" required class="w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
+                        <option value="">Seleccione un horario...</option>
+                        @foreach($tour->horarios as $horario)
+                            <option value="{{ $horario->hora }}">{{ \Carbon\Carbon::parse($horario->hora)->format("H:i") }}</option>
+                        @endforeach
+                    </select>
+                    @error("hora_tour")
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                @endif
+
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">Comentarios Adicionales (Opcional)</label>
                     <textarea name="comentarios" rows="3"
                               class="w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"
-                              placeholder="Algún requerimiento especial..."></textarea>
+                              placeholder="Algun requerimiento especial..."></textarea>
                 </div>
 
                     <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-r-lg">
@@ -90,7 +105,7 @@
                             <svg class="w-5 h-5 text-green-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                             </svg>
-                            <p class="text-sm text-green-800">Tu reservación será <strong>aprobada automáticamente</strong> y recibirás un correo de confirmación.</p>
+                            <p class="text-sm text-green-800">Tu reservacion sera <strong>aprobada</strong></p>
                         </div>
                     </div>
                 </div>
@@ -106,4 +121,14 @@
             </form>
         </div>
     </div>
+
+    @if(!isset($tour))
+    <script>
+        document.getElementById("tour-select")?.addEventListener("change", function() {
+            if (this.value) {
+                window.location.href = "{{ route('reservaciones.create') }}?tour_id=" + this.value;
+            }
+        });
+    </script>
+    @endif
 </x-app-layout>

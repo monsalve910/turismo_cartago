@@ -1,23 +1,32 @@
-<x-app-layout>
-    <x-slot name="header">
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+     <?php $__env->slot('header', null, []); ?> 
         <div class="flex items-center gap-4">
-            <a href="{{ route('admin.tours.index') }}" class="text-emerald-600 hover:text-emerald-800 transition">
+            <a href="<?php echo e(route('admin.tours.index')); ?>" class="text-emerald-600 hover:text-emerald-800 transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
             </a>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Crear Nuevo Tour</h2>
         </div>
-    </x-slot>
+     <?php $__env->endSlot(); ?>
 
     <div class="py-8">
         <div class="max-w-xl mx-auto">
             <div class="bg-white rounded-2xl shadow-lg p-8">
 
-                <form action="{{ route('admin.tours.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
-                    @csrf
+                <form action="<?php echo e(route('admin.tours.store')); ?>" method="POST" enctype="multipart/form-data" class="space-y-5">
+                    <?php echo csrf_field(); ?>
 
-                    {{-- NOMBRE --}}
+                    
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Nombre del Tour</label>
                         <input type="text" name="nombre" required
@@ -25,14 +34,14 @@
                                placeholder="Ej: Tour Valle del Cauca">
                     </div>
 
-                    {{-- DESCRIPCION --}}
+                    
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Descripci�n</label>
                         <textarea name="descripcion" rows="3" required
                                   class="w-full rounded-xl border-gray-300 p-2.5"></textarea>
                     </div>
 
-                    {{-- PRECIO / CAPACIDAD --}}
+                    
                     <div class="grid grid-cols-2 gap-4">
                         <input type="number" name="precio" placeholder="Precio"
                                class="w-full rounded-xl border-gray-300 p-2.5">
@@ -41,7 +50,7 @@
                                class="w-full rounded-xl border-gray-300 p-2.5">
                     </div>
 
-                    {{-- FECHA / CATEGORIA --}}
+                    
                     <div class="grid grid-cols-2 gap-4">
                         <input type="date" name="fecha"
                                class="w-full rounded-xl border-gray-300 p-2.5">
@@ -49,25 +58,25 @@
                         <select name="categoria_id"
                                 class="w-full rounded-xl border-gray-300 p-2.5">
                             <option value="">Categoria</option>
-                            @foreach($categorias as $categoria)
-                                <option value="{{ $categoria->id }}">{{ $categoria->name }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $categorias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $categoria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($categoria->id); ?>"><?php echo e($categoria->name); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
 
-                    {{-- RUTA --}}
+                    
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Ruta</label>
                         <select name="ruta_id" required
                                 class="w-full rounded-xl border-gray-300 p-2.5">
                             <option value="">Seleccione una ruta</option>
-                            @foreach($rutas as $ruta)
-                                <option value="{{ $ruta->id }}">{{ $ruta->nombre }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $rutas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruta): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($ruta->id); ?>"><?php echo e($ruta->nombre); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
 
-                    {{-- HORARIOS DISPONIBLES --}}
+                    
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Horarios Disponibles</label>
                         <div id="horarios-container">
@@ -84,20 +93,20 @@
                         </button>
                     </div>
 
-                    {{-- IMAGEN --}}
+                    
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Imagen</label>
                         <input type="file" name="imagen"
                                class="w-full rounded-xl border-gray-300 p-2.5 bg-gray-50">
                     </div>
 
-                    {{-- BOTONES --}}
+                    
                     <div class="flex gap-4 pt-4 border-t">
                         <button class="flex-1 bg-emerald-600 text-white py-2.5 rounded-xl">
                             Guardar Tour
                         </button>
 
-                        <a href="{{ route('admin.tours.index') }}"
+                        <a href="<?php echo e(route('admin.tours.index')); ?>"
                            class="flex-1 text-center bg-gray-100 py-2.5 rounded-xl">
                             Cancelar
                         </a>
@@ -119,4 +128,14 @@
             container.appendChild(div);
         }
     </script>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $attributes = $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php /**PATH C:\Users\apesi\turismo-cartago\resources\views/admin/tours/create.blade.php ENDPATH**/ ?>

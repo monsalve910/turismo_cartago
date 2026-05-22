@@ -1,28 +1,39 @@
-<x-app-layout>
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <div class="max-w-6xl mx-auto">
 
-        @if(isset($tour))
+        <?php if(isset($tour)): ?>
 
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
 
             <!-- IMAGEN -->
             <div class="w-full h-64 md:h-96 bg-gradient-to-br from-emerald-400 to-teal-500 relative">
-                @if($tour->imagen)
-                <img src="{{ asset('storage/' . $tour->imagen) }}"
+                <?php if($tour->imagen): ?>
+                <img src="<?php echo e(asset('storage/' . $tour->imagen)); ?>"
                     class="w-full h-full object-cover">
-                @endif
+                <?php endif; ?>
 
                 <div class="absolute inset-0 bg-black bg-opacity-30 flex items-end">
                     <div class="p-8 text-white">
                         <h1 class="text-4xl font-bold mb-2">
-                            {{ $tour->nombre }}
+                            <?php echo e($tour->nombre); ?>
+
                         </h1>
 
-                        @if($tour->categoria)
+                        <?php if($tour->categoria): ?>
                         <span class="bg-white bg-opacity-20 px-4 py-1 rounded-full text-sm">
-                            {{ $tour->categoria->name }}
+                            <?php echo e($tour->categoria->name); ?>
+
                         </span>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -41,11 +52,12 @@
                         </h2>
 
                         <p class="text-gray-600 mb-6">
-                            {{ $tour->descripcion }}
+                            <?php echo e($tour->descripcion); ?>
+
                         </p>
 
                         <!-- ================= RUTAS ================= -->
-                        @if($tour->rutas && $tour->rutas->count() > 0)
+                        <?php if($tour->rutas && $tour->rutas->count() > 0): ?>
 
                         <div class="mt-4">
                             <h3 class="text-lg font-bold text-gray-800 mb-2">
@@ -53,18 +65,19 @@
                             </h3>
 
                             <div class="flex flex-wrap gap-2">
-                                @foreach($tour->rutas as $ruta)
+                                <?php $__currentLoopData = $tour->rutas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruta): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-semibold">
-                                    {{ $ruta->nombre }}
+                                    <?php echo e($ruta->nombre); ?>
+
                                 </span>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
 
-                        @endif
+                        <?php endif; ?>
 
                         <!-- ================= LUGARES ================= -->
-                        @if($tour->rutas && $tour->rutas->count() > 0)
+                        <?php if($tour->rutas && $tour->rutas->count() > 0): ?>
 
                         <div class="mt-8">
 
@@ -72,64 +85,68 @@
                                 Lugares del recorrido
                             </h2>
 
-                            @foreach($tour->rutas as $ruta)
+                            <?php $__currentLoopData = $tour->rutas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruta): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                             <div class="mb-6">
 
                                 <h3 class="text-lg font-semibold text-emerald-600 mb-3">
-                                    {{ $ruta->nombre }}
+                                    <?php echo e($ruta->nombre); ?>
+
                                 </h3>
 
-                                @if($ruta->lugares && $ruta->lugares->count() > 0)
+                                <?php if($ruta->lugares && $ruta->lugares->count() > 0): ?>
 
                                 <div class="space-y-4">
 
-                                    @foreach($ruta->lugares->sortBy('orden') as $lugar)
+                                    <?php $__currentLoopData = $ruta->lugares->sortBy('orden'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lugar): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                     <div class="flex gap-4 bg-gray-50 p-4 rounded-xl">
 
-                                        @if($lugar->imagen)
-                                        <img src="{{ asset('storage/' . $lugar->imagen) }}"
+                                        <?php if($lugar->imagen): ?>
+                                        <img src="<?php echo e(asset('storage/' . $lugar->imagen)); ?>"
                                             class="w-20 h-20 object-cover rounded-lg">
-                                        @else
+                                        <?php else: ?>
                                         <div class="w-20 h-20 bg-emerald-100 rounded-lg"></div>
-                                        @endif
+                                        <?php endif; ?>
 
                                         <div>
 
                                             <h4 class="font-bold text-gray-800">
-                                                {{ $lugar->nombre }}
+                                                <?php echo e($lugar->nombre); ?>
+
                                             </h4>
 
                                             <p class="text-sm text-gray-600">
-                                                {{ $lugar->descripcion }}
+                                                <?php echo e($lugar->descripcion); ?>
+
                                             </p>
 
                                             <span class="text-xs text-gray-400">
-                                                Orden: {{ $lugar->orden }}
+                                                Orden: <?php echo e($lugar->orden); ?>
+
                                             </span>
 
                                         </div>
 
                                     </div>
 
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                 </div>
 
-                                @else
+                                <?php else: ?>
                                 <p class="text-sm text-gray-400">
                                     No hay lugares en esta ruta
                                 </p>
-                                @endif
+                                <?php endif; ?>
 
                             </div>
 
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                         </div>
 
-                        @endif
+                        <?php endif; ?>
 
                         <!-- ================= COMENTARIOS ================= -->
                         <div class="border-t pt-6 mt-8">
@@ -138,12 +155,12 @@
                                 Comentarios
                             </h3>
 
-                            @auth
-                            <form action="{{ route('comentarios.store') }}" method="POST"
+                            <?php if(auth()->guard()->check()): ?>
+                            <form action="<?php echo e(route('comentarios.store')); ?>" method="POST"
                                 class="mb-6 bg-gray-50 p-4 rounded-xl">
 
-                                @csrf
-                                <input type="hidden" name="tour_id" value="{{ $tour->id }}">
+                                <?php echo csrf_field(); ?>
+                                <input type="hidden" name="tour_id" value="<?php echo e($tour->id); ?>">
 
                                 <textarea name="comentario" rows="3" required
                                     class="w-full border-gray-300 rounded-lg p-3 mb-3"
@@ -152,13 +169,13 @@
                                 <div class="flex justify-between items-center">
 
                                     <div class="flex gap-1">
-                                        @for($i = 1; $i <= 5; $i++)
+                                        <?php for($i = 1; $i <= 5; $i++): ?>
                                             <button type="button"
                                             class="star-btn text-2xl text-gray-300 hover:text-yellow-400"
-                                            data-rating="{{ $i }}">
+                                            data-rating="<?php echo e($i); ?>">
                                             ★
                                             </button>
-                                            @endfor
+                                            <?php endfor; ?>
 
                                             <input type="hidden" name="calificacion" id="rating-value">
                                     </div>
@@ -183,43 +200,46 @@
                                     });
                                 });
                             </script>
-                            @else
+                            <?php else: ?>
                             <p class="text-gray-500 mb-6">
                                 Inicia sesión para comentar
                             </p>
-                            @endauth
+                            <?php endif; ?>
 
-                            @if($tour->comentarios && $tour->comentarios->count() > 0)
+                            <?php if($tour->comentarios && $tour->comentarios->count() > 0): ?>
 
-                            @foreach($tour->comentarios as $comentario)
+                            <?php $__currentLoopData = $tour->comentarios; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comentario): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                             <div class="bg-gray-50 p-4 rounded-xl mb-3">
 
                                 <div class="flex justify-between">
                                     <p class="font-semibold">
-                                        {{ $comentario->user->name ?? 'Anónimo' }}
+                                        <?php echo e($comentario->user->name ?? 'Anónimo'); ?>
+
                                     </p>
 
                                     <div class="text-yellow-400">
-                                        @for($i = 1; $i <= 5; $i++)
-                                            {!! $i <=$comentario->calificacion ? '★' : '<span class="text-gray-300">★</span>' !!}
-                                            @endfor
+                                        <?php for($i = 1; $i <= 5; $i++): ?>
+                                            <?php echo $i <=$comentario->calificacion ? '★' : '<span class="text-gray-300">★</span>'; ?>
+
+                                            <?php endfor; ?>
                                     </div>
                                 </div>
 
                                 <p class="text-sm text-gray-600 mt-2">
-                                    {{ $comentario->comentario }}
+                                    <?php echo e($comentario->comentario); ?>
+
                                 </p>
 
                             </div>
 
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                            @else
+                            <?php else: ?>
                             <p class="text-gray-500">
                                 No hay comentarios aún.
                             </p>
-                            @endif
+                            <?php endif; ?>
 
                         </div>
 
@@ -232,43 +252,46 @@
 
                             <p class="text-gray-500 text-sm">Precio</p>
                             <p class="text-4xl font-bold text-emerald-600 mb-4">
-                                ${{ number_format($tour->precio, 0, ',', '.') }}
+                                $<?php echo e(number_format($tour->precio, 0, ',', '.')); ?>
+
                             </p>
 
                             <p class="text-sm text-gray-500">Fecha</p>
                             <p class="font-semibold mb-4">
-                                {{ \Carbon\Carbon::parse($tour->fecha)->format('d/m/Y') }}
+                                <?php echo e(\Carbon\Carbon::parse($tour->fecha)->format('d/m/Y')); ?>
+
                             </p>
 
                             <p class="text-sm text-gray-500">Capacidad</p>
                             <p class="font-semibold mb-4">
-                                {{ $tour->capacidad }} personas
+                                <?php echo e($tour->capacidad); ?> personas
                             </p>
 
-                            @if($tour->horarios && $tour->horarios->count() > 0)
+                            <?php if($tour->horarios && $tour->horarios->count() > 0): ?>
                                 <p class="text-sm text-gray-500">Horarios Disponibles</p>
                                 <div class="flex flex-wrap gap-2 mb-6">
-                                    @foreach($tour->horarios as $horario)
+                                    <?php $__currentLoopData = $tour->horarios; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $horario): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-semibold">
-                                            {{ \Carbon\Carbon::parse($horario->hora)->format("H:i") }}
-                                        </span>
-                                    @endforeach
-                                </div>
-                            @else
-                                <p class="text-sm text-gray-400 mb-6">Sin horarios definidos</p>
-                            @endif
+                                            <?php echo e(\Carbon\Carbon::parse($horario->hora)->format("H:i")); ?>
 
-                            @auth
-                            <a href="{{ route('reservaciones.create') }}?tour_id={{ $tour->id }}"
+                                        </span>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </div>
+                            <?php else: ?>
+                                <p class="text-sm text-gray-400 mb-6">Sin horarios definidos</p>
+                            <?php endif; ?>
+
+                            <?php if(auth()->guard()->check()): ?>
+                            <a href="<?php echo e(route('reservaciones.create')); ?>?tour_id=<?php echo e($tour->id); ?>"
                                 class="block text-center bg-emerald-600 text-white py-3 rounded-lg">
                                 Reservar
                             </a>
-                            @else
-                            <a href="{{ route('login') }}"
+                            <?php else: ?>
+                            <a href="<?php echo e(route('login')); ?>"
                                 class="block text-center bg-gray-800 text-white py-3 rounded-lg">
                                 Iniciar sesión
                             </a>
-                            @endauth
+                            <?php endif; ?>
 
                         </div>
 
@@ -279,13 +302,23 @@
             </div>
         </div>
 
-        <a href="{{ route('tours.index') }}" class="text-emerald-600">
+        <a href="<?php echo e(route('tours.index')); ?>" class="text-emerald-600">
             ← Volver a tours
         </a>
 
-        @else
+        <?php else: ?>
         <p>Tour no encontrado</p>
-        @endif
+        <?php endif; ?>
 
     </div>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $attributes = $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php /**PATH C:\Users\apesi\turismo-cartago\resources\views/tours/show.blade.php ENDPATH**/ ?>

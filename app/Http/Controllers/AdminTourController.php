@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use App\Models\Tour;
+use App\Models\TourHorario;
 use App\Models\Ruta;
 use Illuminate\Http\Request;
 
@@ -35,6 +36,8 @@ class AdminTourController extends Controller
             'categoria_id' => 'required|exists:categorias,id',
             'ruta_id' => 'required|exists:rutas,id',
             'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'horarios' => 'nullable|array',
+            'horarios.*' => 'date_format:H:i',
         ]);
 
         // subir imagen
@@ -45,7 +48,16 @@ class AdminTourController extends Controller
             $validated['imagen'] = $path;
         }
 
-        Tour::create($validated);
+        $tour = Tour::create($validated);
+
+        if ($request->has('horarios')) {
+            foreach ($request->horarios as $hora) {
+                TourHorario::create([
+                    'tour_id' => $tour->id,
+                    'hora' => $hora,
+                ]);
+            }
+        }
 
         return redirect()
             ->route('admin.tours.index')
@@ -54,7 +66,7 @@ class AdminTourController extends Controller
 
     public function edit($id)
     {
-        $tour = Tour::findOrFail($id);
+        $tour = Tour::with('horarios')->findOrFail($id);
         $categorias = Categoria::all();
         $rutas = Ruta::all();
 
@@ -74,6 +86,8 @@ class AdminTourController extends Controller
             'categoria_id' => 'required|exists:categorias,id',
             'ruta_id' => 'required|exists:rutas,id',
             'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'horarios' => 'nullable|array',
+            'horarios.*' => 'date_format:H:i',
         ]);
 
         if ($request->hasFile('imagen')) {
@@ -84,6 +98,16 @@ class AdminTourController extends Controller
         }
 
         $tour->update($validated);
+
+        $tour->horarios()->delete();
+        if ($request->has('horarios')) {
+            foreach ($request->horarios as $hora) {
+                TourHorario::create([
+                    'tour_id' => $tour->id,
+                    'hora' => $hora,
+                ]);
+            }
+        }
 
         return redirect()
             ->route('admin.tours.index')

@@ -15,7 +15,7 @@ class TourController extends Controller
 
     public function show($id)
     {
-        $tour = Tour::with(['categoria', 'comentarios.user'])->findOrFail($id);
+        $tour = Tour::with(['categoria', 'comentarios.user', 'horarios'])->findOrFail($id);
 
         return view('tours.show', compact('tour'));
     }
