@@ -18,20 +18,20 @@
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         Dashboard
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.categorias.index')" :active="request()->routeIs('admin.categorias.*')">
+                        Categorías
+                    </x-nav-link>
 
-                    <x-nav-link :href="route('admin.tours.index')" :active="request()->routeIs('admin.tours.*')">
-                        Tours
+                    <x-nav-link :href="route('admin.lugares.index')" :active="request()->routeIs('admin.lugares.*')">
+                        Lugares
                     </x-nav-link>
 
                     <x-nav-link :href="route('admin.rutas.index')" :active="request()->routeIs('admin.rutas.*')">
                         Rutas
                     </x-nav-link>
 
-                    <x-nav-link :href="route('admin.lugares.index')" :active="request()->routeIs('admin.lugares.*')">
-                        Lugares
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.categorias.index')" :active="request()->routeIs('admin.categorias.*')">
-                        Categorías
+                    <x-nav-link :href="route('admin.tours.index')" :active="request()->routeIs('admin.tours.*')">
+                        Tours
                     </x-nav-link>
 
                     <x-nav-link :href="route('admin.administradores.index')" :active="request()->routeIs('admin.administradores.*')">

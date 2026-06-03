@@ -27,19 +27,46 @@
                     <?php echo csrf_field(); ?>
                     <?php echo method_field('PUT'); ?>
 
+                    <?php if($errors->any()): ?>
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                            <p class="text-red-800 font-semibold">Errores:</p>
+                            <ul class="text-red-600 text-sm mt-1 list-disc list-inside">
+                                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li><?php echo e($error); ?></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+
                     
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Nombre del Tour</label>
                         <input type="text" name="nombre"
                                value="<?php echo e(old('nombre', $tour->nombre)); ?>"
                                class="w-full rounded-xl border-gray-300 p-2.5">
+                        <?php $__errorArgs = ['nombre'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="text-red-500 text-sm mt-1"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
 
                     
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-2">Descripción</label>
+                        <label class="block text-gray-700 font-semibold mb-2">Descripciï¿½n</label>
                         <textarea name="descripcion" rows="3"
                                   class="w-full rounded-xl border-gray-300 p-2.5"><?php echo e(old('descripcion', $tour->descripcion)); ?></textarea>
+                        <?php $__errorArgs = ['descripcion'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="text-red-500 text-sm mt-1"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
 
                     
@@ -47,10 +74,26 @@
                         <input type="number" name="precio"
                                value="<?php echo e(old('precio', $tour->precio)); ?>"
                                class="w-full rounded-xl border-gray-300 p-2.5">
+                        <?php $__errorArgs = ['precio'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="text-red-500 text-sm mt-1"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
                         <input type="number" name="capacidad"
                                value="<?php echo e(old('capacidad', $tour->capacidad)); ?>"
                                class="w-full rounded-xl border-gray-300 p-2.5">
+                        <?php $__errorArgs = ['capacidad'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="text-red-500 text-sm mt-1"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
 
                     
@@ -58,17 +101,33 @@
                         <input type="date" name="fecha"
                                value="<?php echo e(old('fecha', $tour->fecha)); ?>"
                                class="w-full rounded-xl border-gray-300 p-2.5">
+                        <?php $__errorArgs = ['fecha'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="text-red-500 text-sm mt-1"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 
                         <select name="categoria_id"
                                 class="w-full rounded-xl border-gray-300 p-2.5">
                             <?php $__currentLoopData = $categorias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <option value="<?php echo e($cat->id); ?>"
-                                    <?php echo e($tour->categoria_id == $cat->id ? 'selected' : ''); ?>>
+                                    <?php echo e(old('categoria_id', $tour->categoria_id) == $cat->id ? 'selected' : ''); ?>>
                                     <?php echo e($cat->name); ?>
 
                                 </option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
+                        <?php $__errorArgs = ['categoria_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="text-red-500 text-sm mt-1"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
 
                     
@@ -82,34 +141,35 @@
 
                             <?php $__currentLoopData = $rutas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ruta): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <option value="<?php echo e($ruta->id); ?>"
-                                    <?php echo e($tour->ruta_id == $ruta->id ? 'selected' : ''); ?>>
+                                    <?php echo e(old('ruta_id', $tour->ruta_id) == $ruta->id ? 'selected' : ''); ?>>
                                     <?php echo e($ruta->nombre); ?>
 
                                 </option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                         </select>
+                        <?php $__errorArgs = ['ruta_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <p class="text-red-500 text-sm mt-1"><?php echo e($message); ?></p> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
 
                     
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Horarios Disponibles</label>
                         <div id="horarios-container">
-                            <?php $__empty_1 = true; $__currentLoopData = $tour->horarios; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $horario): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                            <?php $__currentLoopData = $tour->horarios; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $horario): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="flex gap-2 mb-2 horario-item">
                                     <input type="time" name="horarios[]" value="<?php echo e($horario->hora); ?>"
                                            class="w-full rounded-xl border-gray-300 p-2.5">
                                     <button type="button" onclick="this.parentElement.remove()"
                                             class="px-3 py-2 bg-red-100 text-red-600 rounded-xl hover:bg-red-200">X</button>
                                 </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                <div class="flex gap-2 mb-2 horario-item">
-                                    <input type="time" name="horarios[]"
-                                           class="w-full rounded-xl border-gray-300 p-2.5">
-                                    <button type="button" onclick="this.parentElement.remove()"
-                                            class="px-3 py-2 bg-red-100 text-red-600 rounded-xl hover:bg-red-200">X</button>
-                                </div>
-                            <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                         <button type="button" onclick="agregarHorario()"
                                 class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold">

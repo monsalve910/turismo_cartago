@@ -18,19 +18,32 @@
                     @csrf
                     @method('PUT')
 
+                    @if($errors->any())
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                            <p class="text-red-800 font-semibold">Errores:</p>
+                            <ul class="text-red-600 text-sm mt-1 list-disc list-inside">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     {{-- NOMBRE --}}
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Nombre del Tour</label>
                         <input type="text" name="nombre"
                                value="{{ old('nombre', $tour->nombre) }}"
                                class="w-full rounded-xl border-gray-300 p-2.5">
+                        @error('nombre') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     {{-- DESCRIPCION --}}
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-2">Descripción</label>
+                        <label class="block text-gray-700 font-semibold mb-2">Descripciï¿½n</label>
                         <textarea name="descripcion" rows="3"
                                   class="w-full rounded-xl border-gray-300 p-2.5">{{ old('descripcion', $tour->descripcion) }}</textarea>
+                        @error('descripcion') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     {{-- PRECIO / CAPACIDAD --}}
@@ -38,10 +51,12 @@
                         <input type="number" name="precio"
                                value="{{ old('precio', $tour->precio) }}"
                                class="w-full rounded-xl border-gray-300 p-2.5">
+                        @error('precio') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
 
                         <input type="number" name="capacidad"
                                value="{{ old('capacidad', $tour->capacidad) }}"
                                class="w-full rounded-xl border-gray-300 p-2.5">
+                        @error('capacidad') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     {{-- FECHA / CATEGORIA --}}
@@ -49,16 +64,18 @@
                         <input type="date" name="fecha"
                                value="{{ old('fecha', $tour->fecha) }}"
                                class="w-full rounded-xl border-gray-300 p-2.5">
+                        @error('fecha') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
 
                         <select name="categoria_id"
                                 class="w-full rounded-xl border-gray-300 p-2.5">
                             @foreach($categorias as $cat)
                                 <option value="{{ $cat->id }}"
-                                    {{ $tour->categoria_id == $cat->id ? 'selected' : '' }}>
+                                    {{ old('categoria_id', $tour->categoria_id) == $cat->id ? 'selected' : '' }}>
                                     {{ $cat->name }}
                                 </option>
                             @endforeach
                         </select>
+                        @error('categoria_id') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     {{-- RUTA --}}
@@ -72,33 +89,27 @@
 
                             @foreach($rutas as $ruta)
                                 <option value="{{ $ruta->id }}"
-                                    {{ $tour->ruta_id == $ruta->id ? 'selected' : '' }}>
+                                    {{ old('ruta_id', $tour->ruta_id) == $ruta->id ? 'selected' : '' }}>
                                     {{ $ruta->nombre }}
                                 </option>
                             @endforeach
 
                         </select>
+                        @error('ruta_id') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     {{-- HORARIOS DISPONIBLES --}}
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Horarios Disponibles</label>
                         <div id="horarios-container">
-                            @forelse($tour->horarios as $horario)
+                            @foreach($tour->horarios as $horario)
                                 <div class="flex gap-2 mb-2 horario-item">
                                     <input type="time" name="horarios[]" value="{{ $horario->hora }}"
                                            class="w-full rounded-xl border-gray-300 p-2.5">
                                     <button type="button" onclick="this.parentElement.remove()"
                                             class="px-3 py-2 bg-red-100 text-red-600 rounded-xl hover:bg-red-200">X</button>
                                 </div>
-                            @empty
-                                <div class="flex gap-2 mb-2 horario-item">
-                                    <input type="time" name="horarios[]"
-                                           class="w-full rounded-xl border-gray-300 p-2.5">
-                                    <button type="button" onclick="this.parentElement.remove()"
-                                            class="px-3 py-2 bg-red-100 text-red-600 rounded-xl hover:bg-red-200">X</button>
-                                </div>
-                            @endforelse
+                            @endforeach
                         </div>
                         <button type="button" onclick="agregarHorario()"
                                 class="text-emerald-600 hover:text-emerald-800 text-sm font-semibold">

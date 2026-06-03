@@ -37,7 +37,7 @@ class AdminTourController extends Controller
             'ruta_id' => 'required|exists:rutas,id',
             'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'horarios' => 'nullable|array',
-            'horarios.*' => 'date_format:H:i',
+            'horarios.*' => 'nullable|date_format:H:i:s',
         ]);
 
         // subir imagen
@@ -87,7 +87,7 @@ class AdminTourController extends Controller
             'ruta_id' => 'required|exists:rutas,id',
             'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'horarios' => 'nullable|array',
-            'horarios.*' => 'date_format:H:i',
+            'horarios.*' => 'nullable|date_format:H:i:s',
         ]);
 
         if ($request->hasFile('imagen')) {
