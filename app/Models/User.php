@@ -14,6 +14,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'categoria_id',
     ];
 
     protected $hidden = [
@@ -34,14 +35,19 @@ class User extends Authenticatable
         return $this->hasMany(Reservaciones::class, 'user_id');
     }
 
-    public function guiaDisponibilidad()
-    {
-        return $this->hasMany(GuiaDisponibilidad::class, 'user_id');
-    }
-
     public function reservacionesAsignadas()
     {
         return $this->hasMany(Reservaciones::class, 'guia_id');
+    }
+
+    public function toursAsignados()
+    {
+        return $this->hasMany(Tour::class, 'guia_id');
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
     public function esGuia(): bool

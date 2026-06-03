@@ -13,7 +13,7 @@
                     <header class="mb-6">
                         <h3 class="text-lg font-bold text-gray-800">Información del Perfil</h3>
                         <p class="mt-1 text-sm text-gray-600">
-                            Actualiza la información de tu perfil y dirección de correo electrónico.
+                            Actualiza la información de tu perfil. El correo electrónico no puede modificarse.
                         </p>
                     </header>
 
@@ -49,12 +49,10 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                     </svg>
                                 </div>
-                                <input id="email" name="email" type="email" value="{{ old('email', $user->email) }}" required autocomplete="username"
-                                       class="pl-10 block w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
+                                <input id="email" type="email" value="{{ $user->email }}" disabled readonly
+                                       class="pl-10 block w-full rounded-lg bg-gray-100 border-gray-300 text-gray-500 p-2.5 cursor-not-allowed">
                             </div>
-                            @if ($errors->updateProfileInformation->has('email'))
-                                <p class="text-red-600 text-sm mt-1">{{ $errors->updateProfileInformation->first('email') }}</p>
-                            @endif
+                            <p class="text-xs text-gray-400 mt-1">El correo electrónico no se puede modificar.</p>
 
                             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                                 <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">

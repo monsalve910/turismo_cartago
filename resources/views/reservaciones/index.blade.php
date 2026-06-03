@@ -79,6 +79,9 @@
                                 <div class="flex items-center gap-4 mt-3 text-sm text-gray-600">
                                     <span>{{ $reserva->cantidad_personas }} persona(s)</span>
                                     <span>COP ${{ number_format($reserva->tour->precio, 0, ',', '.') }}</span>
+                                    @if($reserva->guia)
+                                        <span class="text-amber-600 font-medium">Guía: {{ $reserva->guia->name }}</span>
+                                    @endif
                                 </div>
                                 @if($puedeCancelar)
                                     <div class="mt-3 flex items-center gap-3">
