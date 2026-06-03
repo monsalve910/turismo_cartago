@@ -39,13 +39,15 @@
                                             <a href="{{ route('admin.categorias.edit', $categoria) }}" class="text-blue-600 hover:text-blue-800 font-medium text-sm transition">
                                                 Editar
                                             </a>
-                                            <form action="{{ route('admin.categorias.destroy', $categoria) }}" method="POST" onsubmit="return confirm('¿Eliminar categoría? Esto podría afectar a los tours asociados.')">
+                                            <x-confirm message="¿Eliminar categoría? Esto podría afectar a los tours asociados.">
+                                            <form action="{{ route('admin.categorias.destroy', $categoria) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-600 hover:text-red-800 font-medium text-sm transition">
                                                     Eliminar
                                                 </button>
                                             </form>
+                                            </x-confirm>
                                         </div>
                                     </td>
                                 </tr>

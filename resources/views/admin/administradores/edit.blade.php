@@ -103,14 +103,15 @@
                     <div class="mt-8 pt-6 border-t border-red-200">
                         <h3 class="text-lg font-bold text-red-600 mb-3">Zona de Peligro</h3>
                         <p class="text-gray-600 text-sm mb-4">Esta acción eliminará permanentemente al administrador.</p>
-                        <form action="{{ route('admin.administradores.destroy', $administrador) }}" method="POST"
-                              onsubmit="return confirm('¿ESTÁS SEGURO de eliminar este administrador? Esta acción no se puede deshacer.')">
+                        <x-confirm message="¿ESTÁS SEGURO de eliminar este administrador? Esta acción no se puede deshacer.">
+                        <form action="{{ route('admin.administradores.destroy', $administrador) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="bg-red-600 text-white px-6 py-2.5 rounded-xl hover:bg-red-700 transition font-semibold">
                                 Eliminar Administrador
                             </button>
                         </form>
+                        </x-confirm>
                     </div>
                 @endif
             </div>

@@ -111,16 +111,15 @@
                                                 Editar
                                             </a>
 
-                                            <form action="{{ route('admin.tours.destroy', $tour) }}"
-                                                  method="POST"
-                                                  onsubmit="return confirm('¿Eliminar este tour?')">
+                                            <x-confirm message="¿Eliminar este tour?">
+                                            <form action="{{ route('admin.tours.destroy', $tour) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-
                                                 <button class="text-red-600 hover:text-red-800">
                                                     Eliminar
                                                 </button>
                                             </form>
+                                            </x-confirm>
 
                                         </div>
                                     </td>

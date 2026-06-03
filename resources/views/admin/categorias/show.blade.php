@@ -89,13 +89,15 @@
                     <div class="bg-red-50 rounded-2xl p-6 border border-red-100">
                         <h4 class="text-lg font-bold text-red-800 mb-2">Zona de Peligro</h4>
                         <p class="text-sm text-red-600 mb-4">Esta acción eliminará permanentemente la categoría.</p>
-                        <form action="{{ route('admin.categorias.destroy', $categoria) }}" method="POST" onsubmit="return confirm('¿ESTÁS SEGURO de eliminar esta categoría? Esta acción no se puede deshacer.')">
+                        <x-confirm message="¿ESTÁS SEGURO de eliminar esta categoría? Esta acción no se puede deshacer.">
+                        <form action="{{ route('admin.categorias.destroy', $categoria) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="w-full bg-red-600 text-white py-2.5 rounded-xl hover:bg-red-700 transition font-semibold">
                                 Eliminar Categoría
                             </button>
                         </form>
+                        </x-confirm>
                     </div>
                 </div>
             </div>

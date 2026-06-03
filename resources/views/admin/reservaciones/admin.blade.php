@@ -159,23 +159,27 @@
                                         </button>
                                     </form>
 
-                                    <form action="{{ route('admin.reservaciones.cancelar', $reserva->id) }}" method="POST" onsubmit="return confirm('¿Cancelar reserva?')">
+                                    <x-confirm message="¿Cancelar reserva?">
+                                    <form action="{{ route('admin.reservaciones.cancelar', $reserva->id) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium flex items-center gap-1">
                                             Cancelar
                                         </button>
                                     </form>
+                                    </x-confirm>
 
                                     @endif
 
                                     @if($status == 'aprobada')
 
-                                    <form action="{{ route('admin.reservaciones.cancelar', $reserva->id) }}" method="POST" onsubmit="return confirm('¿Cancelar reserva?')">
+                                    <x-confirm message="¿Cancelar reserva?">
+                                    <form action="{{ route('admin.reservaciones.cancelar', $reserva->id) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium flex items-center gap-1">
                                             Cancelar
                                         </button>
                                     </form>
+                                    </x-confirm>
 
                                     @endif
 

@@ -48,13 +48,33 @@
                                 <a href="<?php echo e(route('admin.rutas.edit', $ruta->id)); ?>" class="flex-1 text-center bg-amber-500 text-white py-2 rounded-lg hover:bg-amber-600 transition font-medium text-sm">
                                     Editar
                                 </a>
-                                <form action="<?php echo e(route('admin.rutas.destroy', $ruta->id)); ?>" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar esta ruta?')">
+                                <?php if (isset($component)) { $__componentOriginal5ef37b8f54f924a0e00edd9e11ef4c49 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal5ef37b8f54f924a0e00edd9e11ef4c49 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.confirm','data' => ['message' => '¿Seguro que deseas eliminar esta ruta?']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('confirm'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['message' => '¿Seguro que deseas eliminar esta ruta?']); ?>
+                                <form action="<?php echo e(route('admin.rutas.destroy', $ruta->id)); ?>" method="POST">
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('DELETE'); ?>
                                     <button type="submit" class="bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition font-medium text-sm">
                                         Eliminar
                                     </button>
                                 </form>
+                                 <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal5ef37b8f54f924a0e00edd9e11ef4c49)): ?>
+<?php $attributes = $__attributesOriginal5ef37b8f54f924a0e00edd9e11ef4c49; ?>
+<?php unset($__attributesOriginal5ef37b8f54f924a0e00edd9e11ef4c49); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal5ef37b8f54f924a0e00edd9e11ef4c49)): ?>
+<?php $component = $__componentOriginal5ef37b8f54f924a0e00edd9e11ef4c49; ?>
+<?php unset($__componentOriginal5ef37b8f54f924a0e00edd9e11ef4c49); ?>
+<?php endif; ?>
                             </div>
                         </div>
                     </div>

@@ -63,11 +63,7 @@
                                         </button>
                                     </p>
 
-                                    @if (session('status') === 'verification-link-sent')
-                                        <p class="mt-2 font-medium text-sm text-green-600">
-                                            Se ha enviado un nuevo enlace de verificación a tu correo electrónico.
-                                        </p>
-                                    @endif
+                                    <x-alert type="success" :message="session('status') === 'verification-link-sent' ? 'Se ha enviado un nuevo enlace de verificación a tu correo electrónico.' : ''" :dismissible="false" />
                                 </div>
                             @endif
                         </div>
@@ -77,10 +73,7 @@
                                 Guardar
                             </button>
 
-                            @if (session('status') === 'profile-updated')
-                                <p x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 2000)"
-                                   class="text-sm text-gray-600">Perfil actualizado.</p>
-                            @endif
+                            <x-alert type="success" :message="session('status') === 'profile-updated' ? 'Perfil actualizado.' : ''" :autoDismiss="2000" :dismissible="false" />
                         </div>
                     </form>
                 </div>
@@ -156,10 +149,7 @@
                                 Guardar
                             </button>
 
-                            @if (session('status') === 'password-updated')
-                                <p x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 2000)"
-                                   class="text-sm text-gray-600">Contraseña actualizada.</p>
-                            @endif
+                            <x-alert type="success" :message="session('status') === 'password-updated' ? 'Contraseña actualizada.' : ''" :autoDismiss="2000" :dismissible="false" />
                         </div>
                     </form>
                 </div>
@@ -175,8 +165,8 @@
                         </p>
                     </header>
 
-                    <form method="post" action="{{ route('profile.destroy') }}" class="space-y-5"
-                          onsubmit="return confirm('¿ESTÁS SEGURO de eliminar tu cuenta? Esta acción no se puede deshacer.')">
+                    <x-confirm message="¿ESTÁS SEGURO de eliminar tu cuenta? Esta acción no se puede deshacer.">
+                    <form method="post" action="{{ route('profile.destroy') }}" class="space-y-5">
                         @csrf
                         @method('delete')
 
@@ -203,6 +193,7 @@
                             </button>
                         </div>
                     </form>
+                    </x-confirm>
                 </div>
             </div>
         </div>

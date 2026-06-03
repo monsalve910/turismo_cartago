@@ -50,14 +50,15 @@
                                         Editar
                                     </a>
                                     @if($admin->id != auth()->id())
-                                    <form action="{{ route('admin.administradores.destroy', $admin) }}" method="POST"
-                                        onsubmit="return confirm('¿Estás seguro de eliminar este administrador?')">
+                                    <x-confirm message="¿Estás seguro de eliminar este administrador?">
+                                    <form action="{{ route('admin.administradores.destroy', $admin) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:text-red-800 font-medium text-sm transition">
                                             Eliminar
                                         </button>
                                     </form>
+                                    </x-confirm>
                                     @endif
                                 </div>
                             </td>
