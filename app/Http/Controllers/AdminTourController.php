@@ -6,13 +6,14 @@ use App\Models\Categoria;
 use App\Models\Tour;
 use App\Models\TourHorario;
 use App\Models\Ruta;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminTourController extends Controller
 {
     public function index()
     {
-        $tours = Tour::with(['categoria', 'ruta'])->get();
+        $tours = Tour::with(['categoria', 'ruta', 'guia'])->get();
 
         return view('admin.tours.index', compact('tours'));
     }
@@ -21,8 +22,9 @@ class AdminTourController extends Controller
     {
         $categorias = Categoria::all();
         $rutas = Ruta::all();
+        $guias = User::where('role', 'guia')->with('categoria')->get();
 
-        return view('admin.tours.create', compact('categorias', 'rutas'));
+        return view('admin.tours.create', compact('categorias', 'rutas', 'guias'));
     }
 
     public function store(Request $request)
@@ -35,6 +37,7 @@ class AdminTourController extends Controller
             'capacidad' => 'required|integer|min:1',
             'categoria_id' => 'required|exists:categorias,id',
             'ruta_id' => 'required|exists:rutas,id',
+            'guia_id' => 'nullable|exists:users,id',
             'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'horarios' => 'nullable|array',
             'horarios.*' => 'nullable|date_format:H:i:s',
@@ -69,8 +72,9 @@ class AdminTourController extends Controller
         $tour = Tour::with('horarios')->findOrFail($id);
         $categorias = Categoria::all();
         $rutas = Ruta::all();
+        $guias = User::where('role', 'guia')->with('categoria')->get();
 
-        return view('admin.tours.edit', compact('tour', 'categorias', 'rutas'));
+        return view('admin.tours.edit', compact('tour', 'categorias', 'rutas', 'guias'));
     }
 
     public function update(Request $request, $id)
@@ -85,6 +89,7 @@ class AdminTourController extends Controller
             'capacidad' => 'required|integer|min:1',
             'categoria_id' => 'required|exists:categorias,id',
             'ruta_id' => 'required|exists:rutas,id',
+            'guia_id' => 'nullable|exists:users,id',
             'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'horarios' => 'nullable|array',
             'horarios.*' => 'nullable|date_format:H:i:s',

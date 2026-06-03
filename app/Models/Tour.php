@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tour extends Model
 {
-    protected $fillable = ['nombre', 'descripcion', 'precio', 'capacidad', 'fecha', 'categoria_id', 'ruta_id', 'disponible', 'imagen'];
+    protected $fillable = ['nombre', 'descripcion', 'precio', 'capacidad', 'fecha', 'categoria_id', 'ruta_id', 'guia_id', 'disponible', 'imagen'];
 
     public function categoria()
     {
@@ -31,6 +31,11 @@ class Tour extends Model
     public function horarios()
     {
         return $this->hasMany(TourHorario::class);
+    }
+
+    public function guia()
+    {
+        return $this->belongsTo(User::class, 'guia_id');
     }
 }
 

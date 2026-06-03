@@ -1,11 +1,20 @@
-<x-app-layout>
-    <x-slot name="header">
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+     <?php $__env->slot('header', null, []); ?> 
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Gestión de Tours
             </h2>
 
-            <a href="{{ route('admin.tours.create') }}"
+            <a href="<?php echo e(route('admin.tours.create')); ?>"
                class="bg-emerald-600 text-white px-5 py-2.5 rounded-lg hover:bg-emerald-700 transition font-semibold flex items-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -13,11 +22,11 @@
                 Nuevo Tour
             </a>
         </div>
-    </x-slot>
+     <?php $__env->endSlot(); ?>
 
     <div class="py-8">
 
-        @if($tours && $tours->count() > 0)
+        <?php if($tours && $tours->count() > 0): ?>
 
             <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
                 <div class="overflow-x-auto">
@@ -38,84 +47,90 @@
 
                         <tbody class="divide-y divide-gray-100">
 
-                            @foreach($tours as $tour)
+                            <?php $__currentLoopData = $tours; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tour): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr class="hover:bg-gray-50 transition">
 
-                                    {{-- IMAGEN --}}
+                                    
                                     <td class="p-4">
-                                        @if($tour->imagen)
-                                            <img src="{{ asset('storage/' . $tour->imagen) }}"
+                                        <?php if($tour->imagen): ?>
+                                            <img src="<?php echo e(asset('storage/' . $tour->imagen)); ?>"
                                                  class="w-16 h-16 rounded-lg object-cover">
-                                        @else
+                                        <?php else: ?>
                                             <div class="w-16 h-16 rounded-lg bg-gray-200"></div>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
 
-                                    {{-- NOMBRE --}}
+                                    
                                     <td class="p-4">
-                                        <p class="font-semibold text-gray-800">{{ $tour->nombre }}</p>
+                                        <p class="font-semibold text-gray-800"><?php echo e($tour->nombre); ?></p>
                                         <p class="text-xs text-gray-500">
-                                            {{ Str::limit($tour->descripcion, 50) }}
+                                            <?php echo e(Str::limit($tour->descripcion, 50)); ?>
+
                                         </p>
                                     </td>
 
-                                    {{-- 🔥 RUTA --}}
+                                    
                                     <td class="p-4">
-                                        @if($tour->ruta)
+                                        <?php if($tour->ruta): ?>
                                             <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
-                                                {{ $tour->ruta->nombre }}
+                                                <?php echo e($tour->ruta->nombre); ?>
+
                                             </span>
-                                        @else
+                                        <?php else: ?>
                                             <span class="text-gray-400 text-sm">Sin ruta</span>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
 
-                                    {{-- CATEGORÍA --}}
+                                    
                                     <td class="p-4">
-                                        @if($tour->categoria)
+                                        <?php if($tour->categoria): ?>
                                             <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">
-                                                {{ $tour->categoria->name }}
+                                                <?php echo e($tour->categoria->name); ?>
+
                                             </span>
-                                        @else
+                                        <?php else: ?>
                                             <span class="text-gray-400">Sin categoría</span>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
 
-                                    {{-- GUÍA --}}
+                                    
                                     <td class="p-4">
-                                        @if($tour->guia)
+                                        <?php if($tour->guia): ?>
                                             <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-semibold">
-                                                {{ $tour->guia->name }}
+                                                <?php echo e($tour->guia->name); ?>
+
                                             </span>
-                                        @else
+                                        <?php else: ?>
                                             <span class="text-gray-400">Sin guía</span>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
 
-                                    {{-- PRECIO --}}
+                                    
                                     <td class="p-4 font-semibold text-emerald-600">
-                                        ${{ number_format($tour->precio, 0, ',', '.') }}
+                                        $<?php echo e(number_format($tour->precio, 0, ',', '.')); ?>
+
                                     </td>
 
-                                    {{-- FECHA --}}
+                                    
                                     <td class="p-4 text-gray-600 text-sm">
-                                        {{ \Carbon\Carbon::parse($tour->fecha)->format('d/m/Y') }}
+                                        <?php echo e(\Carbon\Carbon::parse($tour->fecha)->format('d/m/Y')); ?>
+
                                     </td>
 
-                                    {{-- ACCIONES --}}
+                                    
                                     <td class="p-4">
                                         <div class="flex justify-center gap-3">
 
-                                            <a href="{{ route('admin.tours.edit', $tour) }}"
+                                            <a href="<?php echo e(route('admin.tours.edit', $tour)); ?>"
                                                class="text-blue-600 hover:text-blue-800">
                                                 Editar
                                             </a>
 
-                                            <form action="{{ route('admin.tours.destroy', $tour) }}"
+                                            <form action="<?php echo e(route('admin.tours.destroy', $tour)); ?>"
                                                   method="POST"
                                                   onsubmit="return confirm('¿Eliminar este tour?')">
-                                                @csrf
-                                                @method('DELETE')
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('DELETE'); ?>
 
                                                 <button class="text-red-600 hover:text-red-800">
                                                     Eliminar
@@ -126,7 +141,7 @@
                                     </td>
 
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                         </tbody>
                     </table>
@@ -134,13 +149,22 @@
                 </div>
             </div>
 
-        @else
+        <?php else: ?>
 
             <div class="bg-white p-12 text-center rounded-2xl shadow">
                 <h3 class="text-xl font-bold">No hay tours registrados</h3>
             </div>
 
-        @endif
+        <?php endif; ?>
 
     </div>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $attributes = $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?><?php /**PATH C:\laragon\www\turismo_cartago\resources\views/admin/tours/index.blade.php ENDPATH**/ ?>

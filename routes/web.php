@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
         }
 
         $misReservas = Reservaciones::where('user_id', auth()->id())
-            ->with('tour')
+            ->with(['tour', 'guia'])
             ->orderBy('fecha_reservacion', 'desc')
             ->get();
 
@@ -104,8 +104,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('administradores', AdministradorController::class);
     Route::resource('guias', AdminGuiaController::class);
-    Route::get('guias/{guia}/disponibilidad', [AdminGuiaController::class, 'disponibilidad'])->name('guias.disponibilidad');
-    Route::put('guias/{guia}/disponibilidad', [AdminGuiaController::class, 'updateDisponibilidad'])->name('guias.updateDisponibilidad');
 
     Route::get('reservaciones', [ReservasController::class, 'admin'])->name('reservaciones.index');
     Route::post('reservaciones/{id}/aprobar', [ReservasController::class, 'aprobar'])->name('reservaciones.aprobar');

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GuiaDisponibilidad;
 use App\Models\Reservaciones;
 use App\Models\Tour;
 use Carbon\Carbon;
@@ -13,7 +12,7 @@ class ReservasController extends Controller
 {
     public function index()
     {
-        $reservas = Reservaciones::with('tour')
+        $reservas = Reservaciones::with(['tour.guia', 'tour.categoria'])
             ->where('user_id', Auth::id())
             ->orderByRaw("FIELD(status, 'pendiente', 'aprobada', 'finalizada', 'cancelada')")
             ->orderBy('created_at', 'desc')
@@ -88,10 +87,8 @@ class ReservasController extends Controller
             'hora_tour' => $validated['hora_tour'],
             'cantidad_personas' => $validated['numero_personas'],
             'status' => 'aprobada',
+            'guia_id' => $tour->guia_id,
         ]);
-
-        // Asignar gu�a autom�ticamente
-        $this->asignarGuia($reservacion, $tour->fecha, $validated['hora_tour']);
 
         return redirect()
             ->route('reservaciones.index')
@@ -130,7 +127,7 @@ class ReservasController extends Controller
 
     public function aprobar(int $id)
     {
-        $reservacion = Reservaciones::with('user')
+        $reservacion = Reservaciones::with('user', 'tour')
             ->findOrFail($id);
 
         if ($reservacion->status !== 'pendiente') {
@@ -141,18 +138,13 @@ class ReservasController extends Controller
         }
 
         $reservacion->update([
-            'status' => 'aprobada'
+            'status' => 'aprobada',
+            'guia_id' => $reservacion->tour->guia_id,
         ]);
-
-        // Asignar gu�a usando fecha del tour
-        $this->asignarGuia(
-            $reservacion,
-            $reservacion->fecha_tour
-        );
 
         return back()->with(
             'success',
-            'Reservacion aprobada y guia asignado exitosamente.'
+            'Reservacion aprobada exitosamente.'
         );
     }
 
@@ -209,71 +201,5 @@ class ReservasController extends Controller
             'success',
             'Reservacion cancelada exitosamente.'
         );
-    }
-
-        private function asignarGuia(
-        Reservaciones $reservacion,
-        string $fecha,
-        ?string $hora = null
-        ) {
-
-        $diaSemana = Carbon::parse($fecha)->dayOfWeek;
-
-        $guiasIds = GuiaDisponibilidad::where(
-                'dia_semana',
-                $diaSemana
-            )
-            ->where('activo', true)
-            ->pluck('user_id');
-
-        if ($guiasIds->isEmpty()) {
-            return;
-        }
-
-        $ocupadosIds = Reservaciones::whereIn(
-                'guia_id',
-                $guiasIds
-            )
-            ->where('fecha_tour', $fecha)
-            ->whereIn('status', ['aprobada', 'iniciada'])
-            ->when($hora, function ($q) use ($hora) {
-                $q->where('hora_tour', $hora);
-            })
-            ->pluck('guia_id')
-            ->unique();
-
-        $libresIds = $guiasIds->diff($ocupadosIds);
-
-        if ($libresIds->isEmpty()) {
-            return;
-        }
-
-        $carga = Reservaciones::whereIn(
-                'guia_id',
-                $libresIds
-            )
-            ->where('fecha_tour', $fecha)
-            ->whereIn('status', ['aprobada', 'iniciada'])
-            ->selectRaw('guia_id, COUNT(*) as total')
-            ->groupBy('guia_id')
-            ->pluck('total', 'guia_id');
-
-        $menorCarga = $libresIds
-            ->map(fn($id) => $carga[$id] ?? 0)
-            ->min();
-
-        $candidatos = $libresIds->filter(
-            fn($id) => ($carga[$id] ?? 0) === $menorCarga
-        );
-
-        $seleccionado = $candidatos->count() > 1
-            ? $candidatos->random()
-            : $candidatos->first();
-
-        $reservacion->update([
-            'guia_id' => $seleccionado,
-            'fecha_tour' => $fecha,
-            'hora_tour' => $hora,
-        ]);
     }
 }

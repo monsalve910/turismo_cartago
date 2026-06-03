@@ -32,6 +32,9 @@
                                 </svg>
                                 {{ \Carbon\Carbon::parse($reserva->fecha_reservacion)->format('d/m/Y') }}
                             </p>
+                            @if($reserva->guia)
+                                <p class="text-xs text-amber-600 mt-1 font-medium">Guía: {{ $reserva->guia->name }}</p>
+                            @endif
                         </div>
                         <span class="px-3 py-1 rounded-full text-xs font-semibold
                                     @if($reserva->status == 'pendiente') bg-yellow-100 text-yellow-700
