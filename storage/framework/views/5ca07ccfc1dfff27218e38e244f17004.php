@@ -1,26 +1,35 @@
-<x-app-layout>
-    <x-slot name="header">
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+     <?php $__env->slot('header', null, []); ?> 
         <div class="flex items-center gap-4">
-            <a href="{{ route('admin.administradores.index') }}" class="text-emerald-600 hover:text-emerald-800 transition">
+            <a href="<?php echo e(route('admin.administradores.index')); ?>" class="text-emerald-600 hover:text-emerald-800 transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
             </a>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Editar Administrador</h2>
         </div>
-    </x-slot>
+     <?php $__env->endSlot(); ?>
 
     <div class="py-8">
         <div class="max-w-xl mx-auto">
             <div class="bg-white rounded-2xl shadow-lg p-8">
                 <div class="mb-6">
-                    <h3 class="text-2xl font-bold text-gray-800">{{ $administrador->name }}</h3>
+                    <h3 class="text-2xl font-bold text-gray-800"><?php echo e($administrador->name); ?></h3>
                     <p class="text-gray-500 mt-1">Modifica la información del administrador</p>
                 </div>
 
-                <form action="{{ route('admin.administradores.update', $administrador) }}" method="POST" class="space-y-6">
-                    @csrf
-                    @method('PUT')
+                <form action="<?php echo e(route('admin.administradores.update', $administrador)); ?>" method="POST" class="space-y-6">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('PUT'); ?>
 
                     <div>
                         <label for="name" class="block text-gray-700 font-semibold mb-2">Nombre Completo</label>
@@ -31,12 +40,19 @@
                                 </svg>
                             </div>
                             <input type="text" name="name" id="name" required
-                                   value="{{ old('name', $administrador->name) }}"
+                                   value="<?php echo e(old('name', $administrador->name)); ?>"
                                    class="pl-10 block w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
                         </div>
-                        @error('name')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                        <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                            <p class="text-red-600 text-sm mt-1"><?php echo e($message); ?></p>
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
 
                     <div>
@@ -48,7 +64,8 @@
                                 </svg>
                             </div>
                             <div class="pl-10 block w-full rounded-xl border-gray-300 bg-gray-100 p-2.5 text-gray-500 cursor-not-allowed">
-                                {{ $administrador->email }}
+                                <?php echo e($administrador->email); ?>
+
                             </div>
                         </div>
                         <p class="text-xs text-gray-400 mt-1">El correo no se puede modificar.</p>
@@ -70,9 +87,16 @@
                                    class="pl-10 block w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"
                                    placeholder="••••••••">
                         </div>
-                        @error('password')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                        <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                            <p class="text-red-600 text-sm mt-1"><?php echo e($message); ?></p>
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
 
                     <div>
@@ -93,27 +117,37 @@
                         <button type="submit" class="flex-1 bg-emerald-600 text-white py-2.5 px-6 rounded-xl hover:bg-emerald-700 transition font-semibold shadow-lg hover:shadow-xl">
                             Actualizar Administrador
                         </button>
-                        <a href="{{ route('admin.administradores.index') }}" class="flex-1 text-center bg-gray-100 text-gray-700 py-2.5 px-6 rounded-xl hover:bg-gray-200 transition font-semibold">
+                        <a href="<?php echo e(route('admin.administradores.index')); ?>" class="flex-1 text-center bg-gray-100 text-gray-700 py-2.5 px-6 rounded-xl hover:bg-gray-200 transition font-semibold">
                             Cancelar
                         </a>
                     </div>
                 </form>
 
-                @if($administrador->id != auth()->id())
+                <?php if($administrador->id != auth()->id()): ?>
                     <div class="mt-8 pt-6 border-t border-red-200">
                         <h3 class="text-lg font-bold text-red-600 mb-3">Zona de Peligro</h3>
                         <p class="text-gray-600 text-sm mb-4">Esta acción eliminará permanentemente al administrador.</p>
-                        <form action="{{ route('admin.administradores.destroy', $administrador) }}" method="POST"
+                        <form action="<?php echo e(route('admin.administradores.destroy', $administrador)); ?>" method="POST"
                               onsubmit="return confirm('¿ESTÁS SEGURO de eliminar este administrador? Esta acción no se puede deshacer.')">
-                            @csrf
-                            @method('DELETE')
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('DELETE'); ?>
                             <button type="submit" class="bg-red-600 text-white px-6 py-2.5 rounded-xl hover:bg-red-700 transition font-semibold">
                                 Eliminar Administrador
                             </button>
                         </form>
                     </div>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
     </div>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $attributes = $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php /**PATH C:\laragon\www\turismo_cartago\resources\views/admin/administradores/edit.blade.php ENDPATH**/ ?>

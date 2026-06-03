@@ -55,6 +55,22 @@
                            placeholder="Repite la contraseña">
                 </div>
 
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Especialidad (Categoría)</label>
+                    <select name="categoria_id"
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
+                        <option value="">Sin categoría</option>
+                        @foreach($categorias as $cat)
+                            <option value="{{ $cat->id }}" {{ old('categoria_id') == $cat->id ? 'selected' : '' }}>
+                                {{ $cat->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('categoria_id')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="flex items-center gap-4 pt-4 border-t">
                     <button type="submit" class="flex-1 bg-emerald-600 text-white py-2.5 px-6 rounded-lg hover:bg-emerald-700 transition font-semibold">
                         Crear Guía

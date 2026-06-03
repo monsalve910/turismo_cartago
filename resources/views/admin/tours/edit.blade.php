@@ -98,6 +98,23 @@
                         @error('ruta_id') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
+                    {{-- GUIA --}}
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">Guía Asignado</label>
+                        <select name="guia_id" id="guia-select"
+                                class="w-full rounded-xl border-gray-300 p-2.5">
+                            <option value="">Seleccione un guía</option>
+                            @foreach($guias as $guia)
+                                <option value="{{ $guia->id }}"
+                                    data-categoria="{{ $guia->categoria_id ?? '' }}"
+                                    {{ old('guia_id', $tour->guia_id) == $guia->id ? 'selected' : '' }}>
+                                    {{ $guia->name }} @if($guia->categoria)({{ $guia->categoria->name }})@endif
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('guia_id') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                    </div>
+
                     {{-- HORARIOS DISPONIBLES --}}
                     <div>
                         <label class="block text-gray-700 font-semibold mb-2">Horarios Disponibles</label>
@@ -151,5 +168,27 @@
                 '<button type="button" onclick="this.parentElement.remove()" class="px-3 py-2 bg-red-100 text-red-600 rounded-xl hover:bg-red-200">X</button>';
             container.appendChild(div);
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoriaSelect = document.querySelector('select[name="categoria_id"]');
+            const guiaSelect = document.getElementById('guia-select');
+
+            function filtrarGuias() {
+                const catId = categoriaSelect.value;
+                const opciones = guiaSelect.querySelectorAll('option');
+                opciones.forEach(opt => {
+                    if (opt.value === '') return;
+                    const optCat = opt.getAttribute('data-categoria');
+                    if (!catId || optCat === catId) {
+                        opt.style.display = '';
+                    } else {
+                        opt.style.display = 'none';
+                    }
+                });
+            }
+
+            categoriaSelect.addEventListener('change', filtrarGuias);
+            filtrarGuias();
+        });
     </script>
 </x-app-layout>

@@ -1,0 +1,23 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('tours', function (Blueprint $table) {
+            $table->foreignId('guia_id')->nullable()->constrained('users')->nullOnDelete()->after('ruta_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('tours', function (Blueprint $table) {
+            $table->dropForeign(['guia_id']);
+            $table->dropColumn('guia_id');
+        });
+    }
+};

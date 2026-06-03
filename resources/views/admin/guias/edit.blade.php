@@ -31,12 +31,10 @@
 
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">Correo Electrónico</label>
-                    <input type="email" name="email" value="{{ old('email', $guia->email) }}" required
-                           class="w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"
-                           placeholder="correo@ejemplo.com">
-                    @error('email')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+                    <div class="w-full rounded-lg bg-gray-100 border border-gray-300 p-2.5 text-gray-500 cursor-not-allowed">
+                        {{ $guia->email }}
+                    </div>
+                    <p class="text-xs text-gray-400 mt-1">El correo no se puede modificar.</p>
                 </div>
 
                 <div>
@@ -54,6 +52,22 @@
                     <input type="password" name="password_confirmation"
                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5"
                            placeholder="Repite la contraseña">
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Especialidad (Categoría)</label>
+                    <select name="categoria_id"
+                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
+                        <option value="">Sin categoría</option>
+                        @foreach($categorias as $cat)
+                            <option value="{{ $cat->id }}" {{ old('categoria_id', $guia->categoria_id) == $cat->id ? 'selected' : '' }}>
+                                {{ $cat->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('categoria_id')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="flex items-center gap-4 pt-4 border-t">
