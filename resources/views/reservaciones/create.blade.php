@@ -22,7 +22,7 @@
                     @endif
                     <div>
                         <h3 class="font-bold text-gray-800">{{ $tour->nombre }}</h3>
-                        <p class="text-sm text-gray-600">{{ \Carbon\Carbon::parse($tour->fecha)->format('d/m/Y') }} � ${{ number_format($tour->precio, 0, ',', '.') }} � {{ $tour->capacidad }} cupos</p>
+                        <p class="text-sm text-gray-600">{{ \Carbon\Carbon::parse($tour->fecha)->format('d/m/Y') }}  ${{ number_format($tour->precio, 0, ',', '.') }}  {{ $tour->capacidad }} cupos</p>
                     </div>
                 </div>
             @endif

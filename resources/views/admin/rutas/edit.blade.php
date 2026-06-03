@@ -54,17 +54,16 @@
                         <div class="border-t pt-5" x-data="{
                             lugares: {{ json_encode($ruta->lugares->map(fn($l) => ['id' => $l->id, 'nombre' => $l->nombre, 'orden' => $l->pivot->orden])) }},
                             selectLugarId: '',
-                            selectOrden: '',
                             get lugaresDisponibles() {
                                 const idsEnRuta = this.lugares.map(l => l.id);
                                 return {{ json_encode($lugares->map(fn($l) => ['id' => $l->id, 'nombre' => $l->nombre])) }}.filter(l => !idsEnRuta.includes(l.id));
                             },
                             agregar() {
                                 const lugar = this.lugaresDisponibles.find(l => l.id == this.selectLugarId);
-                                if (!lugar || !this.selectOrden) return;
-                                this.lugares.push({ ...lugar, orden: this.selectOrden });
+                                if (!lugar) return;
+                                const maxOrden = Math.max(...this.lugares.map(l => parseInt(l.orden || 0)), 0);
+                                this.lugares.push({ ...lugar, orden: maxOrden + 1 });
                                 this.selectLugarId = '';
-                                this.selectOrden = '';
                                 this.$refs.selectField.value = '';
                             },
                             eliminar(index) {
@@ -73,8 +72,8 @@
                         }">
                             <h3 class="text-lg font-bold text-gray-800 mb-4">Lugares de la Ruta</h3>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-                                <div class="sm:col-span-1">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                                <div>
                                     <label for="lugar_select" class="block text-gray-700 text-sm font-medium mb-1">Lugar</label>
                                     <select x-model="selectLugarId" id="lugar_select" x-ref="selectField"
                                             class="w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
@@ -83,11 +82,6 @@
                                             <option :value="lugar.id" x-text="lugar.nombre"></option>
                                         </template>
                                     </select>
-                                </div>
-                                <div>
-                                    <label for="lugar_orden" class="block text-gray-700 text-sm font-medium mb-1">Orden</label>
-                                    <input type="number" x-model="selectOrden" id="lugar_orden" min="1" placeholder="Orden"
-                                           class="w-full rounded-xl border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2.5">
                                 </div>
                                 <div class="flex items-end">
                                     <button type="button" @click="agregar()"

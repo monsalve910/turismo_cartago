@@ -22,9 +22,9 @@
 </head>
 <body>
     <h1>Turismo Cartago</h1>
-    <p class="subtitle">Reporte de Reservas generado el {{ now()->format('d/m/Y H:i') }}</p>
+    <p class="subtitle">Reporte de Reservas generado el <?php echo e(now()->format('d/m/Y H:i')); ?></p>
 
-    @if(isset($reservas) && $reservas->count() > 0)
+    <?php if(isset($reservas) && $reservas->count() > 0): ?>
         <table>
             <thead>
                 <tr>
@@ -36,19 +36,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($reservas as $reserva)
+                <?php $__currentLoopData = $reservas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reserva): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
-                        <td>{{ $reserva->tour->nombre ?? 'N/A' }}</td>
-                        <td>{{ $reserva->user->name ?? 'N/A' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($reserva->fecha ?? $reserva->created_at)->format('d/m/Y') }}</td>
-                        <td>{{ $reserva->cantidad_personas ?? 1 }}</td>
-                        <td><span class="badge {{ $reserva->status }}">{{ ucfirst($reserva->status) }}</span></td>
+                        <td><?php echo e($reserva->tour->nombre ?? 'N/A'); ?></td>
+                        <td><?php echo e($reserva->user->name ?? 'N/A'); ?></td>
+                        <td><?php echo e(\Carbon\Carbon::parse($reserva->fecha ?? $reserva->created_at)->format('d/m/Y')); ?></td>
+                        <td><?php echo e($reserva->cantidad_personas ?? 1); ?></td>
+                        <td><span class="badge <?php echo e($reserva->status); ?>"><?php echo e(ucfirst($reserva->status)); ?></span></td>
                     </tr>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
         </table>
-    @else
+    <?php else: ?>
         <p class="empty">No hay datos disponibles para el reporte.</p>
-    @endif
+    <?php endif; ?>
 </body>
 </html>
+<?php /**PATH C:\Users\apesi\turismo-cartago\resources\views/admin/reportes/pdf.blade.php ENDPATH**/ ?>

@@ -22,7 +22,6 @@
                             <tr>
                                 <th class="p-4 font-semibold text-gray-700">ID</th>
                                 <th class="p-4 font-semibold text-gray-700">Nombre</th>
-                                <th class="p-4 font-semibold text-gray-700 text-center">Tours Asociados</th>
                                 <th class="p-4 font-semibold text-gray-700 text-center">Acciones</th>
                             </tr>
                         </thead>
@@ -34,9 +33,6 @@
                                         <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-semibold">
                                             {{ $categoria->name }}
                                         </span>
-                                    </td>
-                                    <td class="p-4 text-center text-gray-600">
-                                        {{ $categoria->tours ? $categoria->tours->count() : 0 }}
                                     </td>
                                     <td class="p-4">
                                         <div class="flex justify-center gap-4">

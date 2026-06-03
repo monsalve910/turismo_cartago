@@ -31,7 +31,6 @@
                             <tr>
                                 <th class="p-4 font-semibold text-gray-700">ID</th>
                                 <th class="p-4 font-semibold text-gray-700">Nombre</th>
-                                <th class="p-4 font-semibold text-gray-700 text-center">Tours Asociados</th>
                                 <th class="p-4 font-semibold text-gray-700 text-center">Acciones</th>
                             </tr>
                         </thead>
@@ -44,10 +43,6 @@
                                             <?php echo e($categoria->name); ?>
 
                                         </span>
-                                    </td>
-                                    <td class="p-4 text-center text-gray-600">
-                                        <?php echo e($categoria->tours ? $categoria->tours->count() : 0); ?>
-
                                     </td>
                                     <td class="p-4">
                                         <div class="flex justify-center gap-4">

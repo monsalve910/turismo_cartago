@@ -40,7 +40,7 @@
 
                     {{-- DESCRIPCION --}}
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-2">Descripci�n</label>
+                        <label class="block text-gray-700 font-semibold mb-2">Descripción</label>
                         <textarea name="descripcion" rows="3"
                                   class="w-full rounded-xl border-gray-300 p-2.5">{{ old('descripcion', $tour->descripcion) }}</textarea>
                         @error('descripcion') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror

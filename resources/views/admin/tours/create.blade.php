@@ -27,7 +27,7 @@
 
                     {{-- DESCRIPCION --}}
                     <div>
-                        <label class="block text-gray-700 font-semibold mb-2">Descripci�n</label>
+                        <label class="block text-gray-700 font-semibold mb-2">Descripción</label>
                         <textarea name="descripcion" rows="3" required
                                   class="w-full rounded-xl border-gray-300 p-2.5"></textarea>
                     </div>
