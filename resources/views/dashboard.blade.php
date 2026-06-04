@@ -39,7 +39,6 @@
                         <span class="px-3 py-1 rounded-full text-xs font-semibold
                                     @if($reserva->status == 'pendiente') bg-yellow-100 text-yellow-700
                                     @elseif($reserva->status == 'aprobada') bg-green-100 text-green-700
-
                                     @elseif($reserva->status == 'iniciada') bg-cyan-100 text-cyan-700
                                     @elseif($reserva->status == 'finalizada') bg-blue-100 text-blue-700
                                     @elseif($reserva->status == 'cancelada') bg-red-100 text-red-700
@@ -86,9 +85,17 @@
                         <h4 class="font-bold text-gray-800 mb-2">{{ $tour->nombre }}</h4>
                         <div class="flex justify-between items-center">
                             <span class="text-emerald-600 font-bold">${{ number_format($tour->precio, 0, ',', '.') }}</span>
-                            <a href="{{ route('tours.show', $tour->id) }}" class="text-sm text-emerald-600 hover:text-emerald-800 font-medium">
-                                Ver detalles →
-                            </a>
+                            
+                            @if($tour->esta_agotado)
+                                <a href="{{ route('tours.show', $tour->id) }}" class="text-sm text-gray-400 hover:text-gray-600 font-medium transition duration-200">
+                                    Agotado →
+                                </a >
+                            @else
+                                <a href="{{ route('tours.show', $tour->id) }}" class="text-sm text-emerald-600 hover:text-emerald-800 font-medium transition duration-200">
+                                    Ver detalles →
+                                </a>
+                            @endif
+
                         </div>
                     </div>
                 </div>

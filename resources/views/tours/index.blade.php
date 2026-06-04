@@ -16,7 +16,6 @@
         </div>
 
         @if($tours && $tours->count() > 0)
-            <!-- Cards Grid -->
             <div class="grid md:grid-cols-3 gap-6 mb-8">
                 @foreach($tours as $tour)
                     <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition group">
@@ -50,15 +49,23 @@
                                     {{ \Carbon\Carbon::parse($tour->fecha)->format('d/m/Y') }}
                                 </div>
                             </div>
-                            <div class="flex gap-2">
-                                <a href="{{ route('tours.show', $tour) }}" class="flex-1 text-center bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition font-medium text-sm">
-                                    Ver Detalles
-                                </a>
-                            @if(auth()->check() && auth()->user()->is_admin)
-                                    <a href="{{ route('tours.edit', $tour) }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-medium text-sm">
+
+                            <div class="flex flex-wrap gap-2">
+                                @if($tour->esta_agotado)
+                                    <a href="{{ route('tours.show', $tour) }}" class="flex-1 text-center bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg transition font-medium text-sm shadow-sm">
+                                        Agotado
+                                    </a>
+                                @else
+                                    <a href="{{ route('tours.show', $tour) }}" class="flex-1 text-center bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg transition font-medium text-sm shadow-sm">
+                                        Ver Detalles
+                                    </a>
+                                @endif
+
+                                @if(auth()->check() && auth()->user()->is_admin)
+                                    <a href="{{ route('tours.edit', $tour) }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-medium text-sm flex items-center">
                                         Editar
                                     </a>
-                                    <form action="{{ route('tours.destroy', $tour) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este tour?')">
+                                    <form action="{{ route('tours.destroy', $tour) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este tour?')" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition font-medium text-sm">

@@ -57,7 +57,7 @@
                                     @endif
                                 </div>
                                 <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ $tour->descripcion }}</p>
-                                <div class="flex justify-between items-center">
+                                <div class="flex justify-between items-center mb-4">
                                     <div class="text-emerald-600 font-bold text-lg">
                                         ${{ number_format($tour->precio, 0, ',', '.') }}
                                     </div>
@@ -68,9 +68,16 @@
                                         {{ \Carbon\Carbon::parse($tour->fecha)->format('d/m/Y') }}
                                     </div>
                                 </div>
-                                <a href="{{ route('tours.show', $tour) }}" class="mt-4 block w-full text-center bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition font-medium">
-                                    Ver Detalles
-                                </a>
+                                
+                                @if($tour->esta_agotado)
+                                    <a href="{{ route('tours.show', $tour) }}" class="mt-4 block w-full text-center bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg transition font-medium">
+                                        Agotado 
+                                    </a>
+                                @else
+                                    <a href="{{ route('tours.show', $tour) }}" class="mt-4 block w-full text-center bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition font-medium">
+                                        Ver Detalles
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     @endforeach

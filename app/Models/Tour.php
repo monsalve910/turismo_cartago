@@ -37,5 +37,13 @@ class Tour extends Model
     {
         return $this->belongsTo(User::class, 'guia_id');
     }
-}
 
+    public function getEstaAgotadoAttribute()
+    {
+        $cuposReservados = $this->reservaciones()
+            ->where('status', '!=', 'cancelada')
+            ->sum('cantidad_personas');
+
+        return $cuposReservados >= $this->capacidad;
+    }
+}
