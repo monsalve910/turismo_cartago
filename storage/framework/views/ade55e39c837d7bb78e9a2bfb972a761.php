@@ -1,4 +1,13 @@
-<x-app-layout>
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <div class="max-w-6xl mx-auto">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
@@ -6,55 +15,58 @@
                 <p class="text-gray-500 mt-1">Explora y gestiona los tours en Cartago</p>
             </div>
 
-            @if(auth()->check() && auth()->user()->is_admin)
-                <a href="{{ route('admin.tours.create') }}"
+            <?php if(auth()->check() && auth()->user()->is_admin): ?>
+                <a href="<?php echo e(route('admin.tours.create')); ?>"
                    class="bg-emerald-600 text-white px-5 py-2.5 rounded-lg hover:bg-emerald-700 transition font-semibold flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                     </svg>
                     Crear Nuevo Tour
                 </a>
-            @endif
+            <?php endif; ?>
         </div>
 
-        @if($tours && $tours->count() > 0)
+        <?php if($tours && $tours->count() > 0): ?>
             <div class="grid md:grid-cols-3 gap-6 mb-8">
 
-                @foreach($tours as $tour)
+                <?php $__currentLoopData = $tours; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tour): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition group">
 
-                        @if($tour->imagen)
-                            <img src="{{ asset('storage/' . $tour->imagen) }}"
-                                 alt="{{ $tour->nombre }}"
+                        <?php if($tour->imagen): ?>
+                            <img src="<?php echo e(asset('storage/' . $tour->imagen)); ?>"
+                                 alt="<?php echo e($tour->nombre); ?>"
                                  class="w-full h-48 object-cover group-hover:scale-105 transition duration-300">
-                        @else
+                        <?php else: ?>
                             <div class="w-full h-48 bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
                                 <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                           d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                 </svg>
                             </div>
-                        @endif
+                        <?php endif; ?>
 
                         <div class="p-6">
 
                             <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800">{{ $tour->nombre }}</h3>
+                                <h3 class="text-xl font-bold text-gray-800"><?php echo e($tour->nombre); ?></h3>
 
-                                @if($tour->categoria)
+                                <?php if($tour->categoria): ?>
                                     <span class="bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full">
-                                        {{ $tour->categoria->name }}
+                                        <?php echo e($tour->categoria->name); ?>
+
                                     </span>
-                                @endif
+                                <?php endif; ?>
                             </div>
 
                             <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-                                {{ $tour->descripcion }}
+                                <?php echo e($tour->descripcion); ?>
+
                             </p>
 
                             <div class="flex justify-between items-center mb-4">
                                 <div class="text-emerald-600 font-bold text-xl">
-                                    ${{ number_format($tour->precio, 0, ',', '.') }}
+                                    $<?php echo e(number_format($tour->precio, 0, ',', '.')); ?>
+
                                 </div>
 
                                 <div class="text-gray-500 text-sm flex items-center gap-1">
@@ -62,37 +74,38 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                               d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                     </svg>
-                                    {{ \Carbon\Carbon::parse($tour->fecha)->format('d/m/Y') }}
+                                    <?php echo e(\Carbon\Carbon::parse($tour->fecha)->format('d/m/Y')); ?>
+
                                 </div>
                             </div>
 
                             <div class="flex flex-wrap gap-2">
 
-                                @if($tour->esta_agotado)
-                                    <a href="{{ route('tours.show', $tour) }}"
+                                <?php if($tour->esta_agotado): ?>
+                                    <a href="<?php echo e(route('tours.show', $tour)); ?>"
                                        class="flex-1 text-center bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg transition font-medium text-sm shadow-sm">
                                         Agotado
                                     </a>
-                                @else
-                                    <a href="{{ route('tours.show', $tour) }}"
+                                <?php else: ?>
+                                    <a href="<?php echo e(route('tours.show', $tour)); ?>"
                                        class="flex-1 text-center bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg transition font-medium text-sm shadow-sm">
                                         Ver Detalles
                                     </a>
-                                @endif
+                                <?php endif; ?>
 
-                                @if(auth()->check() && auth()->user()->is_admin)
+                                <?php if(auth()->check() && auth()->user()->is_admin): ?>
 
-                                    <a href="{{ route('tours.edit', $tour) }}"
+                                    <a href="<?php echo e(route('tours.edit', $tour)); ?>"
                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-medium text-sm flex items-center">
                                         Editar
                                     </a>
 
-                                    <form action="{{ route('tours.destroy', $tour) }}"
+                                    <form action="<?php echo e(route('tours.destroy', $tour)); ?>"
                                           method="POST"
                                           onsubmit="return confirm('¿Seguro que deseas eliminar este tour?')">
 
-                                        @csrf
-                                        @method('DELETE')
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
 
                                         <button type="submit"
                                                 class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition font-medium text-sm">
@@ -101,23 +114,24 @@
 
                                     </form>
 
-                                @endif
+                                <?php endif; ?>
 
                             </div>
 
                         </div>
                     </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             </div>
 
-            @if(method_exists($tours, 'links'))
+            <?php if(method_exists($tours, 'links')): ?>
                 <div class="mt-8">
-                    {{ $tours->links() }}
-                </div>
-            @endif
+                    <?php echo e($tours->links()); ?>
 
-        @else
+                </div>
+            <?php endif; ?>
+
+        <?php else: ?>
             <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
                 <svg class="w-20 h-20 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -132,8 +146,8 @@
                     Comienza creando tu primer tour turístico
                 </p>
 
-                @if(auth()->check() && auth()->user()->is_admin)
-                    <a href="{{ route('admin.tours.create') }}"
+                <?php if(auth()->check() && auth()->user()->is_admin): ?>
+                    <a href="<?php echo e(route('admin.tours.create')); ?>"
                        class="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-700 transition font-semibold">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -141,9 +155,18 @@
                         </svg>
                         Crear Primer Tour
                     </a>
-                @endif
+                <?php endif; ?>
             </div>
-        @endif
+        <?php endif; ?>
 
     </div>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $attributes = $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?><?php /**PATH C:\Users\giral\Desktop\turismo\resources\views/tours/index.blade.php ENDPATH**/ ?>
