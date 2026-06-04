@@ -56,14 +56,15 @@
                                                class="text-blue-600 hover:text-blue-800 font-medium text-sm transition">
                                                 Editar
                                             </a>
-                                            <form action="{{ route('admin.guias.destroy', $guia) }}" method="POST"
-                                                   onsubmit="return confirm('¿Estás seguro de eliminar este guía?')">
+                                            <x-confirm message="¿Estás seguro de eliminar este guía?">
+                                            <form action="{{ route('admin.guias.destroy', $guia) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-600 hover:text-red-800 font-medium text-sm transition">
                                                     Eliminar
                                                 </button>
                                             </form>
+                                            </x-confirm>
                                         </div>
                                     </td>
                                 </tr>

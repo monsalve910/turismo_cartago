@@ -39,13 +39,15 @@
                                 <a href="{{ route('admin.rutas.edit', $ruta->id) }}" class="flex-1 text-center bg-amber-500 text-white py-2 rounded-lg hover:bg-amber-600 transition font-medium text-sm">
                                     Editar
                                 </a>
-                                <form action="{{ route('admin.rutas.destroy', $ruta->id) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar esta ruta?')">
+                                <x-confirm message="¿Seguro que deseas eliminar esta ruta?">
+                                <form action="{{ route('admin.rutas.destroy', $ruta->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition font-medium text-sm">
                                         Eliminar
                                     </button>
                                 </form>
+                                </x-confirm>
                             </div>
                         </div>
                     </div>

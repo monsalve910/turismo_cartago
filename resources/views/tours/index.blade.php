@@ -65,13 +65,14 @@
                                     <a href="{{ route('tours.edit', $tour) }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-medium text-sm flex items-center">
                                         Editar
                                     </a>
-                                    <form action="{{ route('tours.destroy', $tour) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este tour?')" class="inline">
+                                    <form action="{{ route('tours.destroy', $tour) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este tour?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition font-medium text-sm">
                                             Eliminar
                                         </button>
                                     </form>
+                                    </x-confirm>
                                 @endif
                             </div>
                         </div>

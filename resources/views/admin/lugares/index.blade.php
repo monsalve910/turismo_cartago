@@ -30,11 +30,13 @@
                                     <td class="p-4 text-center">
                                         <div class="flex items-center justify-center gap-2">
                                             <a href="{{ route('admin.lugares.edit', $lugar->id) }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Editar</a>
-                                            <form action="{{ route('admin.lugares.destroy', $lugar->id) }}" method="POST" onsubmit="return confirm('¿Eliminar este lugar?')" class="inline">
+                                            <x-confirm message="¿Eliminar este lugar?">
+                                            <form action="{{ route('admin.lugares.destroy', $lugar->id) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium">Eliminar</button>
                                             </form>
+                                            </x-confirm>
                                         </div>
                                     </td>
                                 </tr>

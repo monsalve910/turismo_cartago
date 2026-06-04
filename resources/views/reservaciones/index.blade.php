@@ -11,30 +11,19 @@
     </x-slot>
 
     <div class="py-8">
-        @if(session('success'))
-            <div class="max-w-4xl mx-auto mb-6 bg-green-100 border-l-4 border-green-500 text-green-800 p-4 rounded-r-lg" x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)">
-                <div class="flex items-center justify-between">
-                    <p>{{ session('success') }}</p>
-                    <button @click="show = false" class="text-green-600 hover:text-green-800">&times;</button>
-                </div>
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="max-w-4xl mx-auto mb-6 bg-red-100 border-l-4 border-red-500 text-red-800 p-4 rounded-r-lg">
-                <p>{{ session('error') }}</p>
-            </div>
-        @endif
-
-        @if($errors->any())
-            <div class="max-w-4xl mx-auto mb-6 bg-red-100 border-l-4 border-red-500 text-red-800 p-4 rounded-r-lg">
-                <ul class="list-disc pl-5">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <div class="max-w-4xl mx-auto">
+            <x-alert type="success" :message="session('success')" :autoDismiss="4000" />
+            <x-alert type="error" :message="session('error')" />
+            @if($errors->any())
+                <x-alert type="error" message="Se encontraron los siguientes errores:" :dismissible="true">
+                    <ul class="list-disc pl-5 space-y-1">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </x-alert>
+            @endif
+        </div>
 
         @if($reservas && $reservas->count() > 0)
             <div class="max-w-4xl mx-auto space-y-4">
@@ -85,12 +74,14 @@
                                 </div>
                                 @if($puedeCancelar)
                                     <div class="mt-3 flex items-center gap-3">
-                                        <form action="{{ route('reservaciones.cancelar', $reserva->id) }}" method="POST" onsubmit="return confirm('¿Cancelar esta reservación?')">
+                                        <x-confirm message="¿Cancelar esta reservación?">
+                                        <form action="{{ route('reservaciones.cancelar', $reserva->id) }}" method="POST">
                                             @csrf
                                             <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium border border-red-300 px-3 py-1.5 rounded-lg hover:bg-red-50 transition">
                                                 Cancelar Reservación
                                             </button>
                                         </form>
+                                        </x-confirm>
                                         <span class="text-xs text-gray-400">Puedes cancelar hasta {{ $tourDate->subDays(2)->format('d/m/Y') }}</span>
                                     </div>
                                 @elseif($reserva->status === 'aprobada' && $daysUntilTour < 2 && $daysUntilTour >= 0)

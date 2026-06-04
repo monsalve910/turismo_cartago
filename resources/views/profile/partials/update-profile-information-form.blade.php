@@ -40,11 +40,7 @@
                         </button>
                     </p>
 
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
-                    @endif
+                    <x-alert type="success" :message="session('status') === 'verification-link-sent' ? __('A new verification link has been sent to your email address.') : ''" :dismissible="false" />
                 </div>
             @endif
         </div>
@@ -52,15 +48,7 @@
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
-            @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
-                >{{ __('Saved.') }}</p>
-            @endif
+            <x-alert type="success" :message="session('status') === 'profile-updated' ? __('Saved.') : ''" :autoDismiss="2000" :dismissible="false" />
         </div>
     </form>
 </section>

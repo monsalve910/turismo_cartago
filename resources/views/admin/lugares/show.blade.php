@@ -71,13 +71,15 @@
                     <div class="bg-red-50 rounded-2xl p-6 border border-red-100">
                         <h4 class="text-lg font-bold text-red-800 mb-2">Zona de Peligro</h4>
                         <p class="text-sm text-red-600 mb-4">Esta acción eliminará permanentemente el lugar.</p>
-                        <form action="{{ route('admin.lugares.destroy', $lugar->id) }}" method="POST" onsubmit="return confirm('¿ESTÁS SEGURO de eliminar este lugar?')">
+                        <x-confirm message="¿ESTÁS SEGURO de eliminar este lugar?">
+                        <form action="{{ route('admin.lugares.destroy', $lugar->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="w-full bg-red-600 text-white py-2.5 rounded-xl hover:bg-red-700 transition font-semibold">
                                 Eliminar Lugar
                             </button>
                         </form>
+                        </x-confirm>
                     </div>
                 </div>
             </div>
