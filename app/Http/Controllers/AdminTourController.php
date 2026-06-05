@@ -40,14 +40,11 @@ class AdminTourController extends Controller
             'guia_id' => 'nullable|exists:users,id',
             'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'horarios' => 'nullable|array',
-            'horarios.*' => 'nullable|date_format:H:i:s',
+            'horarios.*' => 'nullable|date_format:H:i', // store siempre recibe H:i del formulario
         ]);
 
-        // subir imagen
         if ($request->hasFile('imagen')) {
-
             $path = $request->file('imagen')->store('tours', 'public');
-
             $validated['imagen'] = $path;
         }
 
@@ -55,10 +52,12 @@ class AdminTourController extends Controller
 
         if ($request->has('horarios')) {
             foreach ($request->horarios as $hora) {
-                TourHorario::create([
-                    'tour_id' => $tour->id,
-                    'hora' => $hora,
-                ]);
+                if (!empty($hora)) {
+                    TourHorario::create([
+                        'tour_id' => $tour->id,
+                        'hora' => $hora,
+                    ]);
+                }
             }
         }
 
@@ -81,6 +80,17 @@ class AdminTourController extends Controller
     {
         $tour = Tour::findOrFail($id);
 
+        //  CAMBIO 1: Normalizar horarios quitando los segundos (H:i:s → H:i)
+        if ($request->has('horarios')) {
+            $horarios = array_map(function ($hora) {
+                if (!empty($hora)) {
+                    return substr($hora, 0, 5); // "08:30:00" → "08:30"
+                }
+                return $hora;
+            }, $request->horarios);
+            $request->merge(['horarios' => $horarios]);
+        }
+
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
@@ -92,25 +102,25 @@ class AdminTourController extends Controller
             'guia_id' => 'nullable|exists:users,id',
             'imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'horarios' => 'nullable|array',
-            'horarios.*' => 'nullable|date_format:H:i:s',
+            'horarios.*' => 'nullable|date_format:H:i',
         ]);
 
         if ($request->hasFile('imagen')) {
-
             $path = $request->file('imagen')->store('tours', 'public');
-
             $validated['imagen'] = $path;
         }
 
         $tour->update($validated);
-
+        //  CAMBIO 2: Filtrar horarios vacíos al guardar
         $tour->horarios()->delete();
         if ($request->has('horarios')) {
             foreach ($request->horarios as $hora) {
-                TourHorario::create([
-                    'tour_id' => $tour->id,
-                    'hora' => $hora,
-                ]);
+                if (!empty($hora)) { // ← evita insertar horas vacías
+                    TourHorario::create([
+                        'tour_id' => $tour->id,
+                        'hora' => $hora,
+                    ]);
+                }
             }
         }
 

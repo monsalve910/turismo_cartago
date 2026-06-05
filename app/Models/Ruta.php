@@ -17,6 +17,6 @@ class Ruta extends Model
 
     public function tours()
     {
-        return $this->belongsToMany(Tour::class, 'ruta_tour');
+        return $this->hasMany(Tour::class);
     }
 }

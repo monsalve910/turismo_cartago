@@ -88,10 +88,7 @@ class AdminRutaController extends Controller
     public function destroy($id)
     {
         $ruta = Ruta::findOrFail($id);
-
-        // Elimina los tours relacionados primero
-        $ruta->tours()->delete();
-
+        $ruta->tours()->delete(); // Elimina todos los tours con ese ruta_id
         $ruta->delete();
 
         return redirect()->route('admin.rutas.index')->with('success', 'Ruta eliminada exitosamente');
