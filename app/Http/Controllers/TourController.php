@@ -8,7 +8,7 @@ class TourController extends Controller
 {
     public function index()
     {
-        $tours = Tour::with('categoria')->get();
+        $tours = Tour::with('categoria')->orderBy('fecha', 'desc')->get();
 
         return view('tours.index', compact('tours'));
     }

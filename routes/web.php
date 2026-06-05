@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 // PUBLIC ROUTES
 Route::get('/', function () {
-    $tours = Tour::with('categoria')->get();
+    $tours = Tour::with('categoria')->orderBy('fecha', 'desc')->get();
 
     return view('welcome', compact('tours'));
 });

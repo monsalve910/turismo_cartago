@@ -30,7 +30,7 @@ class ReporteController extends Controller
             $query->where('precio', '>=', $request->precio_min);
         }
 
-        $tours = $query->get();
+        $tours = $query->orderBy('fecha', 'desc')->get();
         $categorias = Categoria::all();
 
         return view('admin.reportes.index', compact('tours', 'categorias'));
@@ -102,7 +102,7 @@ class ReporteController extends Controller
     {
         $categoria = Categoria::findOrFail($id);
 
-        $tours = Tour::where('categoria_id', $id)->get();
+        $tours = Tour::where('categoria_id', $id)->orderBy('fecha', 'desc')->get();
 
         return view('admin.reportes.categoria', compact('tours', 'categoria'));
     }

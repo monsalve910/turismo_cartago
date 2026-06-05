@@ -13,7 +13,7 @@ class AdminTourController extends Controller
 {
     public function index()
     {
-        $tours = Tour::with(['categoria', 'ruta', 'guia'])->get();
+        $tours = Tour::with(['categoria', 'ruta', 'guia'])->orderBy('fecha', 'desc')->get();
 
         return view('admin.tours.index', compact('tours'));
     }

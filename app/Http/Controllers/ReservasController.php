@@ -31,6 +31,7 @@ class ReservasController extends Controller
 
         $tours = Tour::whereDate('fecha', '>=', today())
             ->where('disponible', 1)
+            ->orderBy('fecha', 'asc')
             ->get();
 
         return view('reservaciones.create', compact('tour', 'tours'));

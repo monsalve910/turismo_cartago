@@ -15,7 +15,9 @@ class CategoriaController extends Controller
 
     public function show($id)
     {
-        $categoria = Categoria::with('tours')->findOrFail($id);
+        $categoria = Categoria::with(['tours' => function ($q) {
+            $q->orderBy('fecha', 'desc');
+        }])->findOrFail($id);
 
         return view('categorias.show', compact('categoria'));
     }
