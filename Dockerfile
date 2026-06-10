@@ -54,13 +54,13 @@ RUN docker-php-ext-configure gd --with-freetype --with-webp --with-jpeg \
 RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 
 RUN sed -i \
-    's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm.sock|;
-     s|;listen.owner = nobody|listen.owner = www-data|;
-     s|;listen.group = nobody|listen.group = www-data|;
-     s|;listen.mode = 0660|listen.mode = 0660|;
-     s|user = www-data|user = www-data|;
-     s|group = www-data|group = www-data|' \
-    /usr/local/etc/php-fpm.d/www.conf
+    -e 's|listen = 127.0.0.1:9000|listen = /var/run/php-fpm.sock|' \
+    -e 's|;listen.owner = nobody|listen.owner = www-data|' \
+    -e 's|;listen.group = nobody|listen.group = www-data|' \
+    -e 's|;listen.mode = 0660|listen.mode = 0660|' \
+    -e 's|user = www-data|user = www-data|' \
+    -e 's|group = www-data|group = www-data|' \
+   /usr/local/etc/php-fpm.d/www.conf
 
 WORKDIR /var/www
 
