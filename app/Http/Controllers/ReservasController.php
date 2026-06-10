@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\FinalizarReservacionJob;
 use App\Models\Reservaciones;
 use App\Models\Tour;
 use Carbon\Carbon;
@@ -91,6 +92,9 @@ class ReservasController extends Controller
             'guia_id' => $tour->guia_id,
         ]);
 
+        $delay = Carbon::parse($reservacion->fecha_tour)->addDay()->startOfDay();
+        FinalizarReservacionJob::dispatch($reservacion)->delay($delay);
+
         return redirect()
             ->route('reservaciones.index')
             ->with(
@@ -142,6 +146,9 @@ class ReservasController extends Controller
             'status' => 'aprobada',
             'guia_id' => $reservacion->tour->guia_id,
         ]);
+
+        $delay = Carbon::parse($reservacion->fecha_tour)->addDay()->startOfDay();
+        FinalizarReservacionJob::dispatch($reservacion)->delay($delay);
 
         return back()->with(
             'success',

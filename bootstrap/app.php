@@ -18,9 +18,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'guia' => EnsureUserIsGuia::class,
         ]);
     })
-    ->withSchedule(function ($schedule) {
-        $schedule->command('reservaciones:finalizar')->daily();
-    })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
