@@ -10,47 +10,24 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\GuiaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\ReservasController;
 use App\Http\Controllers\TourController;
-use App\Models\Reservaciones;
-use App\Models\Ruta;
-use App\Models\Tour;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 // PUBLIC ROUTES
-Route::get('/', function () {
-    $tours = Tour::with('categoria')->orderBy('fecha', 'desc')->get();
-
-    return view('welcome', compact('tours'));
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::resource('tours', TourController::class)->only(['index', 'show']);
 Route::resource('categorias', CategoriaController::class)->only(['index', 'show']);
 
 // AUTH ROUTES (any authenticated user)
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        $user = auth()->user();
-
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        }
-
-        if ($user->role === 'guia') {
-            return redirect()->route('guia.dashboard');
-        }
-
-        $misReservas = Reservaciones::where('user_id', auth()->id())
-            ->with(['tour', 'guia'])
-            ->orderBy('fecha_reservacion', 'desc')
-            ->get();
-
-        $availableTours = Tour::with('categoria')->orderBy('fecha', 'desc')->take(6)->get();
-
-        return view('dashboard', compact('misReservas', 'availableTours'));
-    })->middleware(['verified'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->middleware(['verified'])
+        ->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -76,26 +53,7 @@ Route::middleware(['auth', 'guia'])->prefix('guia')->name('guia.')->group(functi
 
 // ADMIN ROUTES (auth + admin middleware)
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        $totalTours = Tour::count();
-        $totalReservas = Reservaciones::count();
-        $totalUsuarios = User::count();
-        $totalRutas = Ruta::count();
-        $totalGuias = User::where('role', 'guia')->count();
-        $recentReservas = Reservaciones::with(['tour', 'user'])
-            ->latest('created_at')
-            ->take(5)
-            ->get();
-
-        return view('admin.dashboard', compact(
-            'totalTours',
-            'totalReservas',
-            'totalUsuarios',
-            'totalRutas',
-            'totalGuias',
-            'recentReservas'
-        ));
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'adminDashboard'])->name('dashboard');
 
     Route::resource('tours', AdminTourController::class)->except(['show']);
     Route::resource('categorias', AdminCategoriaController::class);
