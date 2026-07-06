@@ -1,0 +1,37 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="hWe44gJ7Q4rXVOWlRf04">
+    <mxGraphModel grid="0" page="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="beEsyqYgnqKiPTrL9wjT-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="392" width="238" x="87" y="-11" as="geometry" />
+        </mxCell>
+        <mxCell id="beEsyqYgnqKiPTrL9wjT-9" edge="1" parent="1" source="beEsyqYgnqKiPTrL9wjT-1" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="beEsyqYgnqKiPTrL9wjT-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="beEsyqYgnqKiPTrL9wjT-10" edge="1" parent="1" source="beEsyqYgnqKiPTrL9wjT-1" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="beEsyqYgnqKiPTrL9wjT-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="beEsyqYgnqKiPTrL9wjT-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Usuario" vertex="1">
+          <mxGeometry height="60" width="30" x="6" y="114" as="geometry" />
+        </mxCell>
+        <mxCell id="beEsyqYgnqKiPTrL9wjT-8" edge="1" parent="1" source="beEsyqYgnqKiPTrL9wjT-2" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="beEsyqYgnqKiPTrL9wjT-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="beEsyqYgnqKiPTrL9wjT-2" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Sistema" vertex="1">
+          <mxGeometry height="60" width="30" x="359" y="117" as="geometry" />
+        </mxCell>
+        <mxCell id="beEsyqYgnqKiPTrL9wjT-4" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="ver rutas turisticas" vertex="1">
+          <mxGeometry height="70" width="140" x="136" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="beEsyqYgnqKiPTrL9wjT-5" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="apartado rutas turisticas" vertex="1">
+          <mxGeometry height="70" width="140" x="132" y="107" as="geometry" />
+        </mxCell>
+        <mxCell id="beEsyqYgnqKiPTrL9wjT-6" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="mostrar rutas turisticas" vertex="1">
+          <mxGeometry height="70" width="140" x="132" y="195" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

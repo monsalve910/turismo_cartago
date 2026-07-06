@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="4so0fQtu4pxb0JXzHTcL">
+    <mxGraphModel grid="0" page="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="410" width="242" x="234" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-11" edge="1" parent="1" source="V-EsOLNUksxMk2dof7Qm-1" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="V-EsOLNUksxMk2dof7Qm-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-12" edge="1" parent="1" source="V-EsOLNUksxMk2dof7Qm-1" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="V-EsOLNUksxMk2dof7Qm-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-13" edge="1" parent="1" source="V-EsOLNUksxMk2dof7Qm-1" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="V-EsOLNUksxMk2dof7Qm-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Usuario" vertex="1">
+          <mxGeometry height="60" width="30" x="166" y="138" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-14" edge="1" parent="1" source="V-EsOLNUksxMk2dof7Qm-2" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="V-EsOLNUksxMk2dof7Qm-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-15" edge="1" parent="1" source="V-EsOLNUksxMk2dof7Qm-2" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="V-EsOLNUksxMk2dof7Qm-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-2" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Sistema" vertex="1">
+          <mxGeometry height="60" width="30" x="500" y="138" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-4" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Reservar Tour" vertex="1">
+          <mxGeometry height="59" width="106" x="297" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-5" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Ingresar datos" vertex="1">
+          <mxGeometry height="43" width="108" x="301" y="103" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-6" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Validar datos" vertex="1">
+          <mxGeometry height="45" width="119" x="297" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-7" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Pagar tour" vertex="1">
+          <mxGeometry height="44" width="121" x="304" y="211" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-9" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Validar pago" vertex="1">
+          <mxGeometry height="44" width="121" x="297" y="278" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-10" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Reservado" vertex="1">
+          <mxGeometry height="44" width="121" x="301" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="V-EsOLNUksxMk2dof7Qm-16" edge="1" parent="1" source="V-EsOLNUksxMk2dof7Qm-2" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.901;entryY=0.705;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="V-EsOLNUksxMk2dof7Qm-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="ZZif8y1qYDrCGhGZgTWG">
+    <mxGraphModel grid="0" page="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Fv3iweWlCFEMzxDZbqx_-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="221" width="271" x="69" y="18" as="geometry" />
+        </mxCell>
+        <mxCell id="Fv3iweWlCFEMzxDZbqx_-6" edge="1" parent="1" source="Fv3iweWlCFEMzxDZbqx_-1" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="Fv3iweWlCFEMzxDZbqx_-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fv3iweWlCFEMzxDZbqx_-7" edge="1" parent="1" source="Fv3iweWlCFEMzxDZbqx_-1" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="Fv3iweWlCFEMzxDZbqx_-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Fv3iweWlCFEMzxDZbqx_-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="usuario" vertex="1">
+          <mxGeometry height="60" width="30" x="-18" y="113" as="geometry" />
+        </mxCell>
+        <mxCell id="Fv3iweWlCFEMzxDZbqx_-2" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Sistema" vertex="1">
+          <mxGeometry height="60" width="30" x="366" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="Fv3iweWlCFEMzxDZbqx_-4" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="ingresar a visualizar reserva" vertex="1">
+          <mxGeometry height="70" width="140" x="141" y="47" as="geometry" />
+        </mxCell>
+        <mxCell id="Fv3iweWlCFEMzxDZbqx_-5" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="ver reservas" vertex="1">
+          <mxGeometry height="47" width="128" x="147" y="141" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

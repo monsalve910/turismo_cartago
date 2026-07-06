@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36">
+  <diagram name="Página-1" id="toIK8RV81yQ_mYk2rwU3">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-1" parent="1" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" value="Cliente" vertex="1">
+          <mxGeometry height="210" width="180" x="130" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-2" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Interfaz movil" vertex="1">
+          <mxGeometry height="40" width="110" x="150" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-3" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Buscador de tours" vertex="1">
+          <mxGeometry height="40" width="110" x="150" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-4" parent="1" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" value="Servidor Web" vertex="1">
+          <mxGeometry height="265" width="200" x="475" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-5" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Apache" vertex="1">
+          <mxGeometry height="40" width="110" x="500" y="175" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-6" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Laravel (Fronted + Blade)" vertex="1">
+          <mxGeometry height="55" width="170" x="490" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-7" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Recursos(CSS,JS)" vertex="1">
+          <mxGeometry height="55" width="170" x="490" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-8" parent="1" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" value="Servidor de Aplicaciones" vertex="1">
+          <mxGeometry height="370" width="230" x="130" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-9" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Laravel Backend" vertex="1">
+          <mxGeometry height="40" width="110" x="160" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-10" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Controladores" vertex="1">
+          <mxGeometry height="40" width="110" x="160" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-11" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Servicios (Tours, Reservas, Usuarios)" vertex="1">
+          <mxGeometry height="55" width="120" x="160" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-12" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="API REST" vertex="1">
+          <mxGeometry height="40" width="95" x="172.5" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-13" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Autenticación" vertex="1">
+          <mxGeometry height="40" width="107.5" x="172.5" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-14" parent="1" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" value="Base de Datos" vertex="1">
+          <mxGeometry height="305" width="210" x="500" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-15" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Usuarios" vertex="1">
+          <mxGeometry height="40" width="110" x="525" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-16" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Tours" vertex="1">
+          <mxGeometry height="35" width="115" x="525" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-17" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Reservas" vertex="1">
+          <mxGeometry height="35" width="115" x="525" y="615" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-18" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Experiencias" vertex="1">
+          <mxGeometry height="35" width="115" x="525" y="715" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-19" parent="1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" value="Rutas" vertex="1">
+          <mxGeometry height="35" width="115" x="525" y="665" as="geometry" />
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-20" edge="1" parent="1" source="yiaevHmFtLJdQDx6-aRH-1" style="endArrow=classic;html=1;rounded=0;exitX=0.695;exitY=0.011;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.725;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="yiaevHmFtLJdQDx6-aRH-4" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="410" as="sourcePoint" />
+            <mxPoint x="440" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-21" edge="1" parent="1" source="yiaevHmFtLJdQDx6-aRH-4" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="yiaevHmFtLJdQDx6-aRH-8" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="450" y="340" as="sourcePoint" />
+            <mxPoint x="657" y="436" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yiaevHmFtLJdQDx6-aRH-22" edge="1" parent="1" source="yiaevHmFtLJdQDx6-aRH-8" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0;exitDx=180;exitDy=0;exitPerimeter=0;entryX=0;entryY=0;entryDx=157.5;entryDy=210;entryPerimeter=0;" target="yiaevHmFtLJdQDx6-aRH-14" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="460" y="670" as="sourcePoint" />
+            <mxPoint x="667" y="766" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
